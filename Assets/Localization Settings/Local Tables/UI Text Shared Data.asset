@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: UI Text Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: UI Text
+  m_TableCollectionNameGuidString: 105d240f82c30394b84b2b2450f9f6cd
+  m_Entries:
+  - m_Id: 12413587456
+    m_Key: StartKey
+    m_Metadata:
+      m_Items: []
+  - m_Id: 16148878348288
+    m_Key: LeaderboardKey
+    m_Metadata:
+      m_Items: []
+  - m_Id: 16257976389632
+    m_Key: SettingsKey
+    m_Metadata:
+      m_Items: []
+  - m_Id: 16347591888896
+    m_Key: ExitKey
+    m_Metadata:
+      m_Items: []
+  - m_Id: 19909197713408
+    m_Key: ControllerMapKey
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20043277029376
+    m_Key: AudioKey
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20136390578176
+    m_Key: ColorblindModeKey
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20222537388032
+    m_Key: LanguageKey
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20285036711936
+    m_Key: SaveAndExitKey
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20469892272128
+    m_Key: TwoHandKey
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20519108235264
+    m_Key: LeftKey
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20557351899136
+    m_Key: RightKey
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 4449132721065951256
+  references:
+    version: 2
+    RefIds:
+    - rid: 4449132721065951256
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1727737225302
