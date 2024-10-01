@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace _Scripts
 {
@@ -73,25 +72,38 @@ namespace _Scripts
 
         private float _time;
 
-        public static PlayerMovement Instance { get; private set; }
+        #region Singleton
+
+        public static PlayerMovement Instance
+        {
+            get
+            {
+                if (_instance == null)
+                    _instance = FindObjectOfType(typeof(PlayerMovement)) as PlayerMovement;
+
+                return _instance;
+            }
+            set
+            {
+                _instance = value;
+            }
+        }
+        private static PlayerMovement _instance;
+        #endregion
         
         private void Awake()
         {
-            // Singleton pattern
-            if (Instance == null)
-            {
-                Instance = this;
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
-            
             _rb = GetComponent<Rigidbody2D>();
             _col = GetComponent<BoxCollider2D>();
             _cachedQueryStartInColliders = Physics2D.queriesStartInColliders;
         }
 
+        private void Update()
+        {
+            _time += Time.deltaTime;
+        }
+        
+        #region Input Handling
         /*
          * Listen for event notifications from InputHandler and call the necessary functions
          */
@@ -99,7 +111,7 @@ namespace _Scripts
         {
             if (InputHandler.Instance == null)
             {
-                Debug.Log("InputHandler not found.");
+                Debug.Log("InputHandler not found. (OneEnable)");
                 return;
             }
             // Subscribe to input events
@@ -113,7 +125,7 @@ namespace _Scripts
         {
             if (InputHandler.Instance == null)
             {
-                Debug.Log("InputHandler not found.");
+                Debug.Log("InputHandler not found. (OnDisable)");
                 return;
             }
             // Unsubscribe from input events
@@ -122,13 +134,6 @@ namespace _Scripts
             InputHandler.Instance.OnJumpReleased -= OnJumpReleased;
             InputHandler.Instance.OnMove -= OnMove;
         }
-
-        private void Update()
-        {
-            _time += Time.deltaTime;
-        }
-
-        #region Input Handling
 
         // Input variables for the current frame, toggled by the event listener
         private bool _jumpPressed;
@@ -175,6 +180,8 @@ namespace _Scripts
 
             // Reset per-frame jump press
             _jumpPressed = false;
+            
+            //TODO: Check direction of player
         }
 
         #region Collisions

@@ -252,6 +252,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &311723561 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5735126195345201556, guid: 7d741d99e0d7e4730b3ba45ea0e7cccc, type: 3}
+  m_PrefabInstance: {fileID: 440780772873408772}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &311723564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 311723561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8c3412ceb0064586a7878d7fc35e921, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &352675062
 GameObject:
   m_ObjectHideFlags: 0
@@ -987,9 +1004,21 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 132142133966680316, guid: 7d741d99e0d7e4730b3ba45ea0e7cccc, type: 3}
+      propertyPath: maxSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 132142133966680316, guid: 7d741d99e0d7e4730b3ba45ea0e7cccc, type: 3}
+      propertyPath: acceleration
+      value: 65
+      objectReference: {fileID: 0}
+    - target: {fileID: 132142133966680316, guid: 7d741d99e0d7e4730b3ba45ea0e7cccc, type: 3}
       propertyPath: inputHandler
       value: 
       objectReference: {fileID: 957211728}
+    - target: {fileID: 132142133966680316, guid: 7d741d99e0d7e4730b3ba45ea0e7cccc, type: 3}
+      propertyPath: groundDeceleration
+      value: 80
+      objectReference: {fileID: 0}
     - target: {fileID: 496379358134209070, guid: 7d741d99e0d7e4730b3ba45ea0e7cccc, type: 3}
       propertyPath: m_Name
       value: Player
@@ -1037,7 +1066,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5735126195345201556, guid: 7d741d99e0d7e4730b3ba45ea0e7cccc, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 311723564}
   m_SourcePrefab: {fileID: 100100000, guid: 7d741d99e0d7e4730b3ba45ea0e7cccc, type: 3}
 --- !u!1001 &4981826120275126591
 PrefabInstance:
