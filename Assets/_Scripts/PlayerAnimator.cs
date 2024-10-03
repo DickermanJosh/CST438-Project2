@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace _Scripts
@@ -6,6 +7,7 @@ namespace _Scripts
     public class PlayerAnimator : MonoBehaviour
     {
         private SpriteRenderer _spriteRenderer;
+        private Animator _animator;
     
         #region Singleton
         public static PlayerAnimator Instance
@@ -23,11 +25,35 @@ namespace _Scripts
             }
         }
         private static PlayerAnimator _instance;
+        private static readonly int Speed = Animator.StringToHash("Speed");
+
         #endregion
 
+        private void OnEnable()
+        {
+            if (InputHandler.Instance == null)
+            {
+                return;
+            }
+            // Subscribe to input events
+            InputHandler.Instance.OnJumpDown += OnJumpDown;
+            InputHandler.Instance.OnMove += OnMove;
+        }
+
+        private void OnDisable()
+        {
+            if (InputHandler.Instance == null)
+            {
+                return;
+            }
+            // Unsubscribe from input events
+            InputHandler.Instance.OnJumpDown -= OnJumpDown;
+            InputHandler.Instance.OnMove -= OnMove;
+        }
         private void Awake()
         {
             _spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+            _animator = gameObject.GetComponent<Animator>();
         }
 
         private void FixedUpdate()
@@ -44,6 +70,15 @@ namespace _Scripts
             {
                 _spriteRenderer.flipX = PlayerMovement.Instance.FrameInput.x < 0;
             }
+        }
+        
+        private void OnJumpDown()
+        {
+        }
+        
+        private void OnMove(Vector2 input)
+        {
+            _animator.SetFloat(Speed, Mathf.Abs(input.x));
         }
     }
 }
