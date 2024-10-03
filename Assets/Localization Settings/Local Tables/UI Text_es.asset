@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: UI Text_es
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: es
+  m_SharedData: {fileID: 11400000, guid: 105d240f82c30394b84b2b2450f9f6cd, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 20043277029376
+    m_Localized: Audio
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20136390578176
+    m_Localized: Modo Daltonismo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 19909197713408
+    m_Localized: "Configuraci\xF3n del Controlador"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 16347591888896
+    m_Localized: Salir
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20222537388032
+    m_Localized: Idioma
+    m_Metadata:
+      m_Items: []
+  - m_Id: 16148878348288
+    m_Localized: "Clasificaci\xF3n"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20519108235264
+    m_Localized: Mano Izquierda
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20557351899136
+    m_Localized: Mano Derecha
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20285036711936
+    m_Localized: Guardar y Salir
+    m_Metadata:
+      m_Items: []
+  - m_Id: 16257976389632
+    m_Localized: Ajustes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12413587456
+    m_Localized: Iniciar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20469892272128
+    m_Localized: Dos Manos
+    m_Metadata:
+      m_Items: []
+  - m_Id: 792821534052352
+    m_Localized: Esp
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []
