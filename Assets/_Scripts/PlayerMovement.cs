@@ -65,7 +65,7 @@ namespace _Scripts
         #region Interface
 
         public Vector2 FrameInput { get; private set; }
-        public event Action<bool, float> GroundedChanged;
+        public event Action<bool> GroundedChanged;
         public event Action Jumped;
 
         #endregion
@@ -231,12 +231,12 @@ namespace _Scripts
                     _coyoteUsable = true;
                     _bufferedJumpUsable = true;
                     _endedJumpEarly = false;
-                    GroundedChanged?.Invoke(true, Mathf.Abs(_frameVelocity.y));
+                    GroundedChanged?.Invoke(true);
                     break;
                 case true when !groundHit:
                     _grounded = false;
                     _lastTimeGrounded = _time;
-                    GroundedChanged?.Invoke(false, 0);
+                    GroundedChanged?.Invoke(false);
                     break;
             }
 
