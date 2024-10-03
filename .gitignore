@@ -24,6 +24,7 @@
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
 
+
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
 /[Mm]emoryCaptures/
@@ -411,7 +412,7 @@ PublishScripts/
 # NuGet Symbol Packages
 *.snupkg
 # The packages folder can be ignored because of Package Restore
-**/[Pp]ackages/*
+# **/[Pp]ackages/*
 # except build/, which is used as an MSBuild target.
 !**/[Pp]ackages/build/
 # Uncomment if necessary however generally it will be regenerated when needed
@@ -432,7 +433,7 @@ ecf/
 rcf/
 
 # Windows Store app package directories and files
-AppPackages/
+# AppPackages/
 BundleArtifacts/
 Package.StoreAssociation.xml
 _pkginfo.txt
