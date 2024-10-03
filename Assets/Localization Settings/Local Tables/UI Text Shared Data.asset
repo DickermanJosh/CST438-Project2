@@ -63,6 +63,10 @@ MonoBehaviour:
     m_Key: RightKey
     m_Metadata:
       m_Items: []
+  - m_Id: 792821534052352
+    m_Key: Eng/Esp_Key
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

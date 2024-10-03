@@ -66,6 +66,10 @@ MonoBehaviour:
     m_Localized: Right-Hand
     m_Metadata:
       m_Items: []
+  - m_Id: 792821534052352
+    m_Localized: Eng
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
