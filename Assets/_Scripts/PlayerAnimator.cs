@@ -8,7 +8,9 @@ namespace _Scripts
     {
         private SpriteRenderer _spriteRenderer;
         private Animator _animator;
-    
+        private static readonly int Speed = Animator.StringToHash("Speed");
+        private static readonly int Jumping = Animator.StringToHash("Jumping");
+        
         #region Singleton
         public static PlayerAnimator Instance
         {
@@ -25,7 +27,6 @@ namespace _Scripts
             }
         }
         private static PlayerAnimator _instance;
-        private static readonly int Speed = Animator.StringToHash("Speed");
 
         #endregion
 
@@ -37,6 +38,7 @@ namespace _Scripts
             }
             // Subscribe to input events
             InputHandler.Instance.OnJumpDown += OnJumpDown;
+            PlayerMovement.Instance.GroundedChanged += OnLanded;
             InputHandler.Instance.OnMove += OnMove;
         }
 
@@ -48,6 +50,7 @@ namespace _Scripts
             }
             // Unsubscribe from input events
             InputHandler.Instance.OnJumpDown -= OnJumpDown;
+            PlayerMovement.Instance.GroundedChanged -= OnLanded;
             InputHandler.Instance.OnMove -= OnMove;
         }
         private void Awake()
@@ -74,6 +77,13 @@ namespace _Scripts
         
         private void OnJumpDown()
         {
+            _animator.SetBool(Jumping, true);
+        }
+
+        private void OnLanded(bool grounded)
+        {
+            if (!grounded) return;
+            _animator.SetBool(Jumping, false);
         }
         
         private void OnMove(Vector2 input)
