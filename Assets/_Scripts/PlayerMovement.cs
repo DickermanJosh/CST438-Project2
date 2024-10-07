@@ -21,6 +21,7 @@ namespace _Scripts
         [Header("Adjustable Movement Variables")]
         [Tooltip("Max horizontal speed")]
         public float maxSpeed = 12f;
+        public float currentMaxSpeed;
 
         [Tooltip("Horizontal acceleration modifier")]
         public float acceleration = 75f;
@@ -101,6 +102,7 @@ namespace _Scripts
         private void Update()
         {
             _time += Time.deltaTime;
+            currentMaxSpeed = maxSpeed + DangerMeter.Instance.GetCurrentAmount();
         }
         
         #region Input Handling
@@ -318,7 +320,7 @@ namespace _Scripts
             else
             {
                 // Accelerate
-                _frameVelocity.x = Mathf.MoveTowards(_frameVelocity.x, move.x * maxSpeed, acceleration * Time.fixedDeltaTime);
+                _frameVelocity.x = Mathf.MoveTowards(_frameVelocity.x, move.x * currentMaxSpeed, acceleration * Time.fixedDeltaTime);
             }
         }
 

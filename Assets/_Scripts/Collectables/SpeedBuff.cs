@@ -22,13 +22,7 @@ public class SpeedBuff : MonoBehaviour
     {
         if (col.gameObject.layer != LayerMask.NameToLayer("Player")) return;
         DangerMeter.Instance.Increment(meterIncrement);
-        ApplyBuff();
+        // ApplyBuff();
         Destroy(gameObject);
-    }
-
-    private void ApplyBuff()
-    {
-        if (PlayerMovement.Instance.maxSpeed >= _maxPossibleSpeed) return;
-        PlayerMovement.Instance.maxSpeed += speedIncrease;
     }
 }

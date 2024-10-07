@@ -1,10 +1,14 @@
 using System;
+using System.Collections;
+using UnityEditor.Tilemaps;
 using UnityEngine;
 
 namespace _Scripts.Collectables
 {
     public class SpeedDebuff : MonoBehaviour
     {
+        [Tooltip("Amount of time the debuff will last")]
+        public float debuffTime = 2f;
         [Tooltip("Amount to decrease PlayerMovement MaxSpeed when collecting the debuff")]
         public float speedDecrease = 2f;
         [Tooltip("The amount that this item increments the DangerMeter when collected")]
@@ -19,14 +23,11 @@ namespace _Scripts.Collectables
         {
             if (col.gameObject.layer != LayerMask.NameToLayer("Player")) return;
             DangerMeter.Instance.Increment(meterIncrement);
-            ApplyDebuff();
+            DangerMeter.Instance.ApplyDebuff(debuffTime, speedDecrease, meterIncrement);
+            // StartCoroutine(DangerMeter.Instance.ApplyDebuff(debuffTime, speedDecrease, meterIncrement));
             Destroy(gameObject);
         }
 
-        private void ApplyDebuff()
-        {
-            if (PlayerMovement.Instance.maxSpeed <= _minPossibleSpeed) return;
-            PlayerMovement.Instance.maxSpeed -= speedDecrease;
-        } 
+
     }
 }
