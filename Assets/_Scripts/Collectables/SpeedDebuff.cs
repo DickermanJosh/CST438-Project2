@@ -13,18 +13,12 @@ namespace _Scripts.Collectables
         public float speedDecrease = 2f;
         [Tooltip("The amount that this item increments the DangerMeter when collected")]
         [SerializeField]private float meterIncrement = 2f;
-        private float _minPossibleSpeed; // Don't want the player to ever be able to get below this speed as their max
-        private void Start()
-        {
-            _minPossibleSpeed = PlayerMovement.Instance.maxSpeed / 2f;
-        }
 
         private void OnCollisionEnter2D(Collision2D col)
         {
             if (col.gameObject.layer != LayerMask.NameToLayer("Player")) return;
             DangerMeter.Instance.Increment(meterIncrement);
             DangerMeter.Instance.ApplyDebuff(debuffTime, speedDecrease, meterIncrement);
-            // StartCoroutine(DangerMeter.Instance.ApplyDebuff(debuffTime, speedDecrease, meterIncrement));
             Destroy(gameObject);
         }
 

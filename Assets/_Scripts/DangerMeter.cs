@@ -1,18 +1,17 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using _Scripts;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public class DangerMeter : MonoBehaviour
 {
     [SerializeField] private float maxAmount = 10f; 
-    [SerializeField]private float _currentAmount;
-    public float GetCurrentAmount() =>_currentAmount;
-    #region Singleton
+    [SerializeField] private float currentAmount;
+    public float GetCurrentAmount() => currentAmount;
 
+    #region Singleton
     public static DangerMeter Instance
     {
         get
@@ -30,45 +29,91 @@ public class DangerMeter : MonoBehaviour
     private static DangerMeter _instance;
     #endregion
 
+    // Reference to the UI Image (the bar)
+    [Header("UI Elements")]
+    public Image dangerBarImage;
+
+    // Threshold colors
+    [Header("Thresholds")]
+    [SerializeField] private Color firstColor = Color.green;
+    [SerializeField] private Color secondColor = Color.yellow;
+    [SerializeField] private Color thirdColor = Color.red;
+
+    private void Start()
+    {
+        // Initialize the bar
+        UpdateDangerBar();
+    }
+
     private void Update()
     {
         // Meter completely full, reload the level
-        if (_currentAmount >= maxAmount)
+        if (currentAmount >= maxAmount)
         {
-            // TODO: Make this load into a fade to black transition then reload the scene
+            // TODO: Implement fade to black transition
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             return;
         }
-
-        if (_currentAmount > 0.001f)
-        {
-            _currentAmount -= Time.deltaTime;
-        }
         
+        // Decrease the meter over time
+        if (currentAmount > 0.001f)
+        {
+            currentAmount -= Time.deltaTime;
+            currentAmount = Mathf.Clamp(currentAmount, 0f, maxAmount);
+            UpdateDangerBar();
+        }
+    }
+
+    private void UpdateDangerBar()
+    {
+        if (dangerBarImage != null)
+        {
+            float fillPercentage = currentAmount / maxAmount; // Between 0 and 1
+
+            // Adjust the x-scale of the bar between 0 (empty) and 4 (full)
+            var newScale = dangerBarImage.rectTransform.localScale;
+            newScale.x = fillPercentage * 4f;
+            dangerBarImage.rectTransform.localScale = newScale;
+
+            // Change color based on thresholds
+            if (fillPercentage < 0.33f)
+            {
+                dangerBarImage.color = firstColor;
+            }
+            else if (fillPercentage < 0.66f)
+            {
+                dangerBarImage.color = secondColor;
+            }
+            else
+            {
+                dangerBarImage.color = thirdColor;
+            }
+        }
     }
 
     public void Increment(float amount)
     {
-        _currentAmount += amount;
+        currentAmount += amount;
+        currentAmount = Mathf.Clamp(currentAmount, 0f, maxAmount);
+        UpdateDangerBar();
     }
 
     public void ApplyDebuff(float debuffTime, float speedDecrease, float meterIncrement)
     {
         StartCoroutine(DebuffTimer(debuffTime, speedDecrease, meterIncrement));
     }
-    
-    public IEnumerator DebuffTimer(float debuffTime, float speedDecrease, float meterIncrement)
+
+    private IEnumerator DebuffTimer(float debuffTime, float speedDecrease, float meterIncrement)
     {
         if (PlayerMovement.Instance.currentMaxSpeed <= 6.0f)
         {
-            yield return null;
+            yield break;
         }
-        
+
         Debug.Log("Timer start");
         PlayerMovement.Instance.maxSpeed -= (speedDecrease + meterIncrement);
         yield return new WaitForSeconds(debuffTime);
         Debug.Log("Timer end");
         PlayerMovement.Instance.maxSpeed += (speedDecrease + meterIncrement);
-        yield return null;
-    } 
+    }
 }
