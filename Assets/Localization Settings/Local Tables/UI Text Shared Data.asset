@@ -67,6 +67,10 @@ MonoBehaviour:
     m_Key: Eng/Esp_Key
     m_Metadata:
       m_Items: []
+  - m_Id: 2991619624910848
+    m_Key: English/Espanol_Key
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
