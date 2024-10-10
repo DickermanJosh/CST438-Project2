@@ -45,4 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxAmount: 10
-  _currentAmount: 0
+  currentAmount: 0
+  dangerBarImage: {fileID: 0}
+  firstColor: {r: 0, g: 1, b: 0, a: 1}
+  secondColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  thirdColor: {r: 1, g: 0, b: 0, a: 1}
