@@ -36,6 +36,9 @@ namespace _Scripts
             UpdateLocaleButtons(_tempLocale);
             UpdateControlSchemeButtons(_tempScheme);
             UpdateColorBlindButton(_isColorBlind);
+            
+            //load locale based on player prefs and changes UI
+            OnClickChangeLocale(GameManager.instance.locale);
         }
 
         public void ChangeControlScheme(int schemeNum)
@@ -62,7 +65,7 @@ namespace _Scripts
         IEnumerator ChangeLocale(int localeNumber)
         {
             yield return LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[localeNumber];
-            Debug.Log("Locale changed to: " + LocalizationSettings.SelectedLocale.LocaleName);
+            //Debug.Log("Locale changed to: " + LocalizationSettings.SelectedLocale.LocaleName);
         }
 
         private void UpdateLocaleButtons(int localeNumber)

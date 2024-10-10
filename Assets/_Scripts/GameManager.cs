@@ -1,4 +1,7 @@
 using UnityEngine;
+using UnityEngine.Localization.Settings;
+using System.Collections;
+
 
 public class GameManager : MonoBehaviour
 {
@@ -28,6 +31,8 @@ public class GameManager : MonoBehaviour
     {
         // Load settings from PlayerPrefs when game starts
         LoadSettings();
+        //sets locale from player prefs at the start.
+        StartCoroutine(ChangeLocale(locale)); 
     }
 
     public void LoadSettings()
@@ -47,5 +52,11 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.SetInt("ControlScheme", controlScheme);
         PlayerPrefs.SetInt("ColorBlindMode", isColorBlind ? 1 : 0);
         PlayerPrefs.Save();
+    }
+    
+    IEnumerator ChangeLocale(int localeNumber)
+    {
+        yield return LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[localeNumber];
+        Debug.Log("Locale changed to: " + LocalizationSettings.SelectedLocale.LocaleName);
     }
 }
