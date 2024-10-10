@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
         // Load settings from PlayerPrefs when game starts
         LoadSettings();
         //sets locale from player prefs at the start.
-        StartCoroutine(ChangeLocale(locale)); 
+        StartCoroutine(InitializeAndChangeLocale(locale)); 
     }
 
     public void LoadSettings()
@@ -54,9 +54,13 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.Save();
     }
     
-    IEnumerator ChangeLocale(int localeNumber)
+    IEnumerator InitializeAndChangeLocale(int localeNumber)
     {
+        // Wait until the LocalizationSettings are fully initialized
+        //If we don't locale string tables aren't initialized and we get yelled at! I would know!
+        yield return LocalizationSettings.InitializationOperation;
+        
+        // Now we can safely change the locale
         yield return LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[localeNumber];
-        Debug.Log("Locale changed to: " + LocalizationSettings.SelectedLocale.LocaleName);
     }
 }
