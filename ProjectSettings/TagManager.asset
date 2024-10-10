@@ -6,7 +6,6 @@ TagManager:
   tags:
   - Background
   - Foreground
-  - Checkpoint
   layers:
   - Default
   - TransparentFX
@@ -15,8 +14,8 @@ TagManager:
   - Water
   - UI
   - Environment
-  - 
-  - 
+  - Collectable
+  - Checkpoint
   - 
   - 
   - 
