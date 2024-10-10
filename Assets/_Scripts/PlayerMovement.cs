@@ -91,7 +91,7 @@ namespace _Scripts
         }
         private static PlayerMovement _instance;
         #endregion
-        
+
         private void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
@@ -104,7 +104,7 @@ namespace _Scripts
             _time += Time.deltaTime;
             currentMaxSpeed = maxSpeed + DangerMeter.Instance.GetCurrentAmount();
         }
-        
+
         #region Input Handling
         /*
          * Listen for event notifications from InputHandler and call the necessary functions
@@ -182,7 +182,7 @@ namespace _Scripts
 
             // Reset per-frame jump press
             _jumpPressed = false;
-            
+
             //TODO: Check direction of player
         }
 
@@ -266,12 +266,12 @@ namespace _Scripts
             {
                 _jumpToConsume = true;
             }
-            
+
             if (_jumpHeld == false && _rb.velocity.y > 0 && !_endedJumpEarly && !_grounded)
             {
                 _endedJumpEarly = true;
             }
-            
+
             if (!_jumpToConsume && !HasBufferedJump)
             {
                 return;
