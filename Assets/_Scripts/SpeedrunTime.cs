@@ -12,6 +12,8 @@ using UnityEngine.Serialization;
 
 public class SpeedrunTimer : MonoBehaviour {
 
+    public int testCount = 0;
+
     [Header("UI Elements")]
     public Text TimeText;
 
@@ -25,8 +27,7 @@ public class SpeedrunTimer : MonoBehaviour {
         timer.Start();
 
         TimeSpan ts = timer.Elapsed;
-        string elapsedTime = 
-        string.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
+        string elapsedTime = string.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
 
         TimeText.text = elapsedTime; 
         
@@ -35,20 +36,27 @@ public class SpeedrunTimer : MonoBehaviour {
     // Update is called once per frame
     void Update() {
 
+        testCount++;
+
         TimeSpan ts = timer.Elapsed;
         string elapsedTime = string.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
         
         // Win condition, reached rehab
-        if(false) {
-
-            // StreamWriter sw = new StreamWriter(saveCopy.txt);
+        if(testCount >= 3000) {
+            UnityEngine.Debug.Log("Initializing reset operation");
 
             TimeText.text = elapsedTime;
 
-            timer.Stop();
+            StreamWriter sw = new StreamWriter("saveCopy.txt", true);
 
-            // sw.Write(speedRunTImerImage.Value + ",");
-            // sw.Close;
+            timer.Stop();
+            timer.Reset();
+
+            UnityEngine.Debug.Log("Writing " + elapsedTime + " to save file");
+            sw.Write(elapsedTime + ",");
+            sw.Close();
+
+            TimeText.text = "00:00:00.00";
 
             // Resets the scene, should probably add a victory thing idk
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
