@@ -70,6 +70,10 @@ MonoBehaviour:
     m_Localized: Esp
     m_Metadata:
       m_Items: []
+  - m_Id: 2991619624910848
+    m_Localized: Espanol
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
