@@ -10,6 +10,7 @@ public class DangerMeter : MonoBehaviour
     [SerializeField] private float maxAmount = 10f; 
     [SerializeField] private float currentAmount;
     public float GetCurrentAmount() => currentAmount;
+    public float GetCurrentMeterPercentage() => currentAmount / maxAmount;
 
     #region Singleton
     public static DangerMeter Instance

@@ -252,9 +252,11 @@ namespace _Scripts
         private bool _endedJumpEarly;
         private bool _coyoteUsable;
         private float _timeJumpWasPressed;
+        private bool _usedDoubleJump;
 
         private bool HasBufferedJump => _bufferedJumpUsable && _time < _timeJumpWasPressed + jumpBuffer;
         private bool CanUseCoyote => _coyoteUsable && !_grounded && _time < _lastTimeGrounded + coyoteTime;
+        private bool CanDoubleJump => !_grounded && !_usedDoubleJump && DangerMeter.Instance.GetCurrentMeterPercentage() >= .66f;
 
         private void HandleJump()
         {
@@ -269,6 +271,11 @@ namespace _Scripts
                 _endedJumpEarly = true;
             }
 
+            if (_grounded)
+            {
+                _usedDoubleJump = false;
+            }
+
             if (!_jumpToConsume && !HasBufferedJump)
             {
                 return;
@@ -281,6 +288,16 @@ namespace _Scripts
                 _timeJumpWasPressed = 0;
                 _bufferedJumpUsable = false;
                 _coyoteUsable = false;
+                _frameVelocity.y = jumpPower;
+                Jumped?.Invoke();
+            }
+            // Handle double jump if conditions are met
+            else if (CanDoubleJump)
+            {
+                _endedJumpEarly = false;
+                _timeJumpWasPressed = 0;
+                _bufferedJumpUsable = false;
+                _usedDoubleJump = true;
                 _frameVelocity.y = jumpPower;
                 Jumped?.Invoke();
             }
