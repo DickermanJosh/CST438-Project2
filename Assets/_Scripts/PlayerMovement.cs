@@ -59,7 +59,7 @@ namespace _Scripts
         #endregion
 
         private Rigidbody2D _rb;
-        private BoxCollider2D _col;
+        private CapsuleCollider2D _col;
         private Vector2 _frameVelocity;
         private bool _cachedQueryStartInColliders;
 
@@ -95,7 +95,7 @@ namespace _Scripts
         private void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
-            _col = GetComponent<BoxCollider2D>();
+            _col = GetComponent<CapsuleCollider2D>();
             _cachedQueryStartInColliders = Physics2D.queriesStartInColliders;
         }
 
@@ -199,25 +199,22 @@ namespace _Scripts
             var origin = (Vector2)_col.transform.position + _col.offset;
             var size = _col.size;
 
-            // Ground check
-            var groundHit = Physics2D.BoxCast(
-                origin,
-                size,
-                0f,
+            var groundHit = Physics2D.CapsuleCast(
+                _col.bounds.center,
+                _col.size, _col.direction,
+                0,
                 Vector2.down,
                 groundCheckDistance,
-                ~playerLayer
-            );
-
-            // Ceiling check
-            var ceilingHit = Physics2D.BoxCast(
-                origin,
-                size,
-                0f,
+                ~playerLayer);
+            
+            var ceilingHit = Physics2D.CapsuleCast(
+                _col.bounds.center,
+                _col.size,
+                _col.direction,
+                0,
                 Vector2.up,
                 groundCheckDistance,
-                ~playerLayer
-            );
+                ~playerLayer);
 
             // Ceiling collision
             if (ceilingHit)
