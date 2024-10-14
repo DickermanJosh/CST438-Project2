@@ -1,26 +1,9 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem; // Required for the new Input System
 
 namespace _Scripts
 {
-    /*
-    * Input manager axis to DuelSense inputs
-   - 0 - Square
-   - 1 - X
-   - 2 - Circle
-   - 3 - Triangle
-   - 4 - Left Bumper
-   - 5 - Right Bumper
-   - 6 - Left Trigger
-   - 7 - Right Trigger
-   - 8 - Share Button
-   - 9 - Menu Button
-   - 10 - Left Stick Down
-   - 11 - Right Stick Down
-   - 12 - On / Off Button
-   - 13 - DuelSense GamePad
-    */
-
     public class InputHandler : MonoBehaviour
     {
         // Events for jumping and movement, subscribed to by PlayerMovement.cs
@@ -28,7 +11,7 @@ namespace _Scripts
         public event Action OnJumpHeld;
         public event Action OnJumpReleased;
         public event Action<Vector2> OnMove;
-        
+
         #region Singleton
 
         public static InputHandler Instance
@@ -48,39 +31,69 @@ namespace _Scripts
         private static InputHandler _instance;
         #endregion
 
-        private void Update()
+        // Input Action class instance
+        private PlayerInputActions _playerInputActions;
+
+        private void Awake()
         {
-            HandleJumpInputs();
-            HandleMovementInputs();
+            // Initialize the input action class
+            _playerInputActions = new PlayerInputActions();
         }
 
-        private void HandleJumpInputs()
+        private void OnEnable()
         {
-            // Check for JumpDown input and invoke the event
-            if (Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.Space))
-            {
-                OnJumpDown?.Invoke();
-            }
+            // Enable the input actions
+            _playerInputActions.Enable();
 
-            // Check for JumpHeld input and invoke the event
-            if (Input.GetButton("Jump") || Input.GetKey(KeyCode.Space))
-            {
-                OnJumpHeld?.Invoke();
-            }
-            
-            // Check for JumpReleased input and invoke the event
-            if (Input.GetButtonUp("Jump") || Input.GetKeyUp(KeyCode.Space))
-            {
-                OnJumpReleased?.Invoke();
-            }
+            // Subscribe to move and jump actions
+            _playerInputActions.Player.Move.performed += OnMovePerformed;
+            _playerInputActions.Player.Move.canceled += OnMoveCanceled;
+
+            _playerInputActions.Player.Jump.started += OnJumpStarted;
+            _playerInputActions.Player.Jump.performed += OnJumpHeldPerformed;
+            _playerInputActions.Player.Jump.canceled += OnJumpCanceled;
         }
 
-        private void HandleMovementInputs()
+        private void OnDisable()
         {
-            var moveInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+            // Unsubscribe from input actions when the object is disabled
+            _playerInputActions.Player.Move.performed -= OnMovePerformed;
+            _playerInputActions.Player.Move.canceled -= OnMoveCanceled;
 
-            // Invoke the movement event
+            _playerInputActions.Player.Jump.started -= OnJumpStarted;
+            _playerInputActions.Player.Jump.performed -= OnJumpHeldPerformed;
+            _playerInputActions.Player.Jump.canceled -= OnJumpCanceled;
+
+            // Disable the input actions
+            _playerInputActions.Disable();
+        }
+
+        // Handle Move inputs
+        private void OnMovePerformed(InputAction.CallbackContext context)
+        {
+            Vector2 moveInput = context.ReadValue<Vector2>();
             OnMove?.Invoke(moveInput);
+        }
+
+        private void OnMoveCanceled(InputAction.CallbackContext context)
+        {
+            OnMove?.Invoke(Vector2.zero); // Stop movement when the input is canceled
+        }
+
+        // Handle Jump inputs
+        private void OnJumpStarted(InputAction.CallbackContext context)
+        {
+            OnJumpDown?.Invoke();
+        }
+
+        private void OnJumpHeldPerformed(InputAction.CallbackContext context)
+        {
+            OnJumpHeld?.Invoke();
+        }
+
+        private void OnJumpCanceled(InputAction.CallbackContext context)
+        {
+            OnJumpReleased?.Invoke();
         }
     }
 }
