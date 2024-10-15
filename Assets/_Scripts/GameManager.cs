@@ -1,66 +1,68 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Localization.Settings;
-using System.Collections;
 
-
-public class GameManager : MonoBehaviour
+namespace _Scripts
 {
-    public static GameManager instance;
-
-    // Player settings
-    public float volume;
-    public int locale;
-    public int controlScheme;
-    public bool isColorBlind;
-
-    private void Awake()
+    public class GameManager : MonoBehaviour
     {
-        // Ensure there's only one instance of GameManager
-        if (instance == null)
+        public static GameManager Instance;
+
+        // Player settings
+        public float volume;
+        public int locale;
+        public int controlScheme;
+        public bool isColorBlind;
+
+        private void Awake()
         {
-            instance = this;
-            DontDestroyOnLoad(gameObject); // Keep this GameManager in all scenes
+            // Ensure there's only one instance of GameManager
+            if (Instance == null)
+            {
+                Instance = this;
+                DontDestroyOnLoad(gameObject); // Keep this GameManager in all scenes
+            }
+            else
+            {
+                Destroy(gameObject); // Only ONE!
+            }
         }
-        else
+
+        private void Start()
         {
-            Destroy(gameObject); // Only ONE!
+            // Load settings from PlayerPrefs when game starts
+            LoadSettings();
+            //sets locale from player prefs at the start.
+            StartCoroutine(InitializeAndChangeLocale(locale)); 
         }
-    }
 
-    private void Start()
-    {
-        // Load settings from PlayerPrefs when game starts
-        LoadSettings();
-        //sets locale from player prefs at the start.
-        StartCoroutine(InitializeAndChangeLocale(locale)); 
-    }
+        public void LoadSettings()
+        {
+            // Load settings from PlayerPrefs or set defaults
+            volume = PlayerPrefs.GetFloat("MasterVolume", 0.5f);
+            locale = PlayerPrefs.GetInt("Locale", 0);  // 0 = English
+            controlScheme = PlayerPrefs.GetInt("ControlScheme", 0);
+            isColorBlind = PlayerPrefs.GetInt("ColorBlindMode", 0) == 1;
+        }
 
-    public void LoadSettings()
-    {
-        // Load settings from PlayerPrefs or set defaults
-        volume = PlayerPrefs.GetFloat("MasterVolume", 0.5f);
-        locale = PlayerPrefs.GetInt("Locale", 0);  // 0 = English
-        controlScheme = PlayerPrefs.GetInt("ControlScheme", 0);
-        isColorBlind = PlayerPrefs.GetInt("ColorBlindMode", 0) == 1;
-    }
-
-    public void SaveSettings()
-    {
-        // Save all settings to PlayerPrefs
-        PlayerPrefs.SetFloat("MasterVolume", volume);
-        PlayerPrefs.SetInt("Locale", locale);
-        PlayerPrefs.SetInt("ControlScheme", controlScheme);
-        PlayerPrefs.SetInt("ColorBlindMode", isColorBlind ? 1 : 0);
-        PlayerPrefs.Save();
-    }
+        public void SaveSettings()
+        {
+            // Save all settings to PlayerPrefs
+            PlayerPrefs.SetFloat("MasterVolume", volume);
+            PlayerPrefs.SetInt("Locale", locale);
+            PlayerPrefs.SetInt("ControlScheme", controlScheme);
+            PlayerPrefs.SetInt("ColorBlindMode", isColorBlind ? 1 : 0);
+            PlayerPrefs.Save();
+        }
     
-    IEnumerator InitializeAndChangeLocale(int localeNumber)
-    {
-        // Wait until the LocalizationSettings are fully initialized
-        //If we don't locale string tables aren't initialized and we get yelled at! I would know!
-        yield return LocalizationSettings.InitializationOperation;
+        IEnumerator InitializeAndChangeLocale(int localeNumber)
+        {
+            // Wait until the LocalizationSettings are fully initialized
+            //If we don't, locale string tables aren't initialized and we get yelled at! I would know!
+            yield return LocalizationSettings.InitializationOperation;
         
-        // Now we can safely change the locale
-        yield return LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[localeNumber];
+            // Now we can safely change the locale
+            yield return LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[localeNumber];
+        }
     }
 }
