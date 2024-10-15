@@ -59,7 +59,7 @@ namespace _Scripts
         #endregion
 
         private Rigidbody2D _rb;
-        private BoxCollider2D _col;
+        private CapsuleCollider2D _col;
         private Vector2 _frameVelocity;
         private bool _cachedQueryStartInColliders;
 
@@ -95,7 +95,7 @@ namespace _Scripts
         private void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
-            _col = GetComponent<BoxCollider2D>();
+            _col = GetComponent<CapsuleCollider2D>();
             _cachedQueryStartInColliders = Physics2D.queriesStartInColliders;
         }
 
@@ -199,25 +199,22 @@ namespace _Scripts
             var origin = (Vector2)_col.transform.position + _col.offset;
             var size = _col.size;
 
-            // Ground check
-            var groundHit = Physics2D.BoxCast(
-                origin,
-                size,
-                0f,
+            var groundHit = Physics2D.CapsuleCast(
+                _col.bounds.center,
+                _col.size, _col.direction,
+                0,
                 Vector2.down,
                 groundCheckDistance,
-                ~playerLayer
-            );
-
-            // Ceiling check
-            var ceilingHit = Physics2D.BoxCast(
-                origin,
-                size,
-                0f,
+                ~playerLayer);
+            
+            var ceilingHit = Physics2D.CapsuleCast(
+                _col.bounds.center,
+                _col.size,
+                _col.direction,
+                0,
                 Vector2.up,
                 groundCheckDistance,
-                ~playerLayer
-            );
+                ~playerLayer);
 
             // Ceiling collision
             if (ceilingHit)
@@ -255,9 +252,11 @@ namespace _Scripts
         private bool _endedJumpEarly;
         private bool _coyoteUsable;
         private float _timeJumpWasPressed;
+        private bool _usedDoubleJump;
 
         private bool HasBufferedJump => _bufferedJumpUsable && _time < _timeJumpWasPressed + jumpBuffer;
         private bool CanUseCoyote => _coyoteUsable && !_grounded && _time < _lastTimeGrounded + coyoteTime;
+        private bool CanDoubleJump => !_grounded && !_usedDoubleJump && DangerMeter.Instance.GetCurrentMeterPercentage() >= .66f;
 
         private void HandleJump()
         {
@@ -272,6 +271,11 @@ namespace _Scripts
                 _endedJumpEarly = true;
             }
 
+            if (_grounded)
+            {
+                _usedDoubleJump = false;
+            }
+
             if (!_jumpToConsume && !HasBufferedJump)
             {
                 return;
@@ -284,6 +288,16 @@ namespace _Scripts
                 _timeJumpWasPressed = 0;
                 _bufferedJumpUsable = false;
                 _coyoteUsable = false;
+                _frameVelocity.y = jumpPower;
+                Jumped?.Invoke();
+            }
+            // Handle double jump if conditions are met
+            else if (CanDoubleJump)
+            {
+                _endedJumpEarly = false;
+                _timeJumpWasPressed = 0;
+                _bufferedJumpUsable = false;
+                _usedDoubleJump = true;
                 _frameVelocity.y = jumpPower;
                 Jumped?.Invoke();
             }
