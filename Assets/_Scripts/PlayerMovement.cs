@@ -98,6 +98,18 @@ namespace _Scripts
             _col = GetComponent<CapsuleCollider2D>();
             _cachedQueryStartInColliders = Physics2D.queriesStartInColliders;
         }
+        private void Start()
+        {
+            // Initialize player position based on the last checkpoint
+            if (CheckpointManager.Instance != null)
+            {
+                Vector3 startPosition = CheckpointManager.Instance.GetLastCheckpoint();
+                if (startPosition != Vector3.zero)
+                {
+                    transform.position = startPosition;
+                }
+            }
+        }
 
         private void Update()
         {
@@ -206,7 +218,7 @@ namespace _Scripts
                 Vector2.down,
                 groundCheckDistance,
                 ~playerLayer);
-            
+
             var ceilingHit = Physics2D.CapsuleCast(
                 _col.bounds.center,
                 _col.size,
