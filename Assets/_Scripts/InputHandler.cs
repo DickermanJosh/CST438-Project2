@@ -44,7 +44,7 @@ namespace _Scripts
         {
             // Enable the input actions
             _playerInputActions.Enable();
-
+            
             // Subscribe to move and jump actions
             _playerInputActions.Player.Move.performed += OnMovePerformed;
             _playerInputActions.Player.Move.canceled += OnMoveCanceled;
@@ -52,6 +52,8 @@ namespace _Scripts
             _playerInputActions.Player.Jump.started += OnJumpStarted;
             _playerInputActions.Player.Jump.performed += OnJumpHeldPerformed;
             _playerInputActions.Player.Jump.canceled += OnJumpCanceled;
+            
+            _playerInputActions.UI.Pause.performed += OnPausePerformed;
         }
 
         private void OnDisable()
@@ -63,6 +65,8 @@ namespace _Scripts
             _playerInputActions.Player.Jump.started -= OnJumpStarted;
             _playerInputActions.Player.Jump.performed -= OnJumpHeldPerformed;
             _playerInputActions.Player.Jump.canceled -= OnJumpCanceled;
+            
+            _playerInputActions.UI.Pause.performed -= OnPausePerformed;
 
             // Disable the input actions
             _playerInputActions.Disable();
@@ -94,6 +98,14 @@ namespace _Scripts
         private void OnJumpCanceled(InputAction.CallbackContext context)
         {
             OnJumpReleased?.Invoke();
+        }
+        
+        public event Action OnPausePressed;
+
+        private void OnPausePerformed(InputAction.CallbackContext context)
+        {
+            Debug.Log("Pause Pressed");
+            OnPausePressed?.Invoke();
         }
     }
 }
