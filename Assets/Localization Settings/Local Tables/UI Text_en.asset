@@ -74,6 +74,14 @@ MonoBehaviour:
     m_Localized: English
     m_Metadata:
       m_Items: []
+  - m_Id: 5151505483583488
+    m_Localized: Enable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5151606264320000
+    m_Localized: Disable
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Localization.Settings;
+using UnityEngine.Serialization;
 
 namespace _Scripts
 {
@@ -14,7 +15,8 @@ namespace _Scripts
         public Button twoHandedButton;
         public Button leftHandedButton;
         public Button rightHandedButton;
-        public Button colorBlindButton;
+        public Button enableColorBlindButton;
+        public Button disableColorBlindButton;
         public Slider masterAudioSlider;
 
         // Temporary variables for settings changes
@@ -25,20 +27,20 @@ namespace _Scripts
 
         void Start()
         {
+            //load locale based on player prefs and changes UI
+            OnClickChangeLocale(GameManager.Instance.locale);
+            
             // Load current settings from GameManager into temp variables and UI
-            _tempVolume = GameManager.instance.volume;
-            _tempLocale = GameManager.instance.locale;
-            _tempScheme = GameManager.instance.controlScheme;
-            _isColorBlind = GameManager.instance.isColorBlind;
+            _tempVolume = GameManager.Instance.volume;
+            _tempLocale = GameManager.Instance.locale;
+            _tempScheme = GameManager.Instance.controlScheme;
+            _isColorBlind = GameManager.Instance.isColorBlind;
 
             // Set UI based on loaded settings
             masterAudioSlider.value = _tempVolume;
             UpdateLocaleButtons(_tempLocale);
             UpdateControlSchemeButtons(_tempScheme);
-            UpdateColorBlindButton(_isColorBlind);
-            
-            //load locale based on player prefs and changes UI
-            OnClickChangeLocale(GameManager.instance.locale);
+            UpdateColorBlindButtons(_isColorBlind);
         }
 
         public void ChangeControlScheme(int schemeNum)
@@ -73,18 +75,28 @@ namespace _Scripts
             // Update button states visually to reflect active/inactive status
             englishButton.interactable = localeNumber != 0;
             spanishButton.interactable = localeNumber != 1;
+            
+            englishButton.OnDeselect(null);
+            spanishButton.OnDeselect(null);
         }
 
-        public void ChangeColorBlindMode()
+        public void EnableColorBlindMode()
         {
-            _isColorBlind = !_isColorBlind; // Toggle color blind mode
-            UpdateColorBlindButton(_isColorBlind); // Update UI
+            _isColorBlind = true; // Toggle color blind mode to true
+            UpdateColorBlindButtons(_isColorBlind); // Update UI
         }
 
-        private void UpdateColorBlindButton(bool isColorBlind)
+        public void DisableColorBlindMode()
+        {
+            _isColorBlind = false;
+            UpdateColorBlindButtons(_isColorBlind);
+        }
+
+        private void UpdateColorBlindButtons(bool isColorBlind)
         {
             // Change button appearance based on color blind mode
-            colorBlindButton.GetComponentInChildren<TextMeshProUGUI>().text = isColorBlind ? "Color Blind: ON" : "Color Blind: OFF";
+            enableColorBlindButton.interactable = isColorBlind != true;
+            disableColorBlindButton.interactable = isColorBlind;
         }
 
         public void ChangeVolume(float volume)
@@ -95,27 +107,27 @@ namespace _Scripts
         public void QuitAndSave()
         {
             // Save temp settings into GameManager and PlayerPrefs
-            GameManager.instance.volume = _tempVolume;
-            GameManager.instance.locale = _tempLocale;
-            GameManager.instance.controlScheme = _tempScheme;
-            GameManager.instance.isColorBlind = _isColorBlind;
+            GameManager.Instance.volume = _tempVolume;
+            GameManager.Instance.locale = _tempLocale;
+            GameManager.Instance.controlScheme = _tempScheme;
+            GameManager.Instance.isColorBlind = _isColorBlind;
 
-            GameManager.instance.SaveSettings(); // Save preferences
+            GameManager.Instance.SaveSettings(); // Save preferences
         }
 
         public void JustQuit()
         {
             // Reset the UI to the original settings from GameManager
-            _tempVolume = GameManager.instance.volume;
-            _tempLocale = GameManager.instance.locale;
-            _tempScheme = GameManager.instance.controlScheme;
-            _isColorBlind = GameManager.instance.isColorBlind;
+            _tempVolume = GameManager.Instance.volume;
+            _tempLocale = GameManager.Instance.locale;
+            _tempScheme = GameManager.Instance.controlScheme;
+            _isColorBlind = GameManager.Instance.isColorBlind;
 
             // Update UI elements to reflect original settings
             masterAudioSlider.value = _tempVolume;
             UpdateLocaleButtons(_tempLocale);
             UpdateControlSchemeButtons(_tempScheme);
-            UpdateColorBlindButton(_isColorBlind);
+            UpdateColorBlindButtons(_isColorBlind);
         }
     }
 }
