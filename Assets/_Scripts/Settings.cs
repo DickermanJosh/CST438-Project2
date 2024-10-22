@@ -75,6 +75,9 @@ namespace _Scripts
             // Update button states visually to reflect active/inactive status
             englishButton.interactable = localeNumber != 0;
             spanishButton.interactable = localeNumber != 1;
+            
+            englishButton.OnDeselect(null);
+            spanishButton.OnDeselect(null);
         }
 
         public void EnableColorBlindMode()
