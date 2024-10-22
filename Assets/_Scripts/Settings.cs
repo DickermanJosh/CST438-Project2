@@ -15,15 +15,14 @@ namespace _Scripts
         public Button twoHandedButton;
         public Button leftHandedButton;
         public Button rightHandedButton;
-        public Button enableColorBlindButton;
-        public Button disableColorBlindButton;
+        public Button[] colorBlindButtons;
         public Slider masterAudioSlider;
 
         // Temporary variables for settings changes
         private float _tempVolume;
         private int _tempLocale;
         private int _tempScheme;
-        private bool _isColorBlind;
+        private int _colorBlindMode;
 
         void Start()
         {
@@ -34,13 +33,13 @@ namespace _Scripts
             _tempVolume = GameManager.Instance.volume;
             _tempLocale = GameManager.Instance.locale;
             _tempScheme = GameManager.Instance.controlScheme;
-            _isColorBlind = GameManager.Instance.isColorBlind;
+            _colorBlindMode = GameManager.Instance.isColorBlind;
 
             // Set UI based on loaded settings
             masterAudioSlider.value = _tempVolume;
             UpdateLocaleButtons(_tempLocale);
             UpdateControlSchemeButtons(_tempScheme);
-            UpdateColorBlindButtons(_isColorBlind);
+            UpdateColorBlindButtons(_colorBlindMode);
         }
 
         public void ChangeControlScheme(int schemeNum)
@@ -79,24 +78,22 @@ namespace _Scripts
             englishButton.OnDeselect(null);
             spanishButton.OnDeselect(null);
         }
-
-        public void EnableColorBlindMode()
+        
+        public void UpdateColorBlindMode(int mode)
         {
-            _isColorBlind = true; // Toggle color blind mode to true
-            UpdateColorBlindButtons(_isColorBlind); // Update UI
+            _colorBlindMode = mode;
+            UpdateColorBlindButtons(mode);
+            //should update immediately when pressed.
+            
         }
 
-        public void DisableColorBlindMode()
+        private void UpdateColorBlindButtons(int mode)
         {
-            _isColorBlind = false;
-            UpdateColorBlindButtons(_isColorBlind);
-        }
-
-        private void UpdateColorBlindButtons(bool isColorBlind)
-        {
-            // Change button appearance based on color blind mode
-            enableColorBlindButton.interactable = isColorBlind != true;
-            disableColorBlindButton.interactable = isColorBlind;
+            for (int i = 0; i < colorBlindButtons.Length; i++)
+            {
+                // Disable the button for the selected mode, enable others
+                colorBlindButtons[i].interactable = (i != mode);
+            }
         }
 
         public void ChangeVolume(float volume)
@@ -110,7 +107,7 @@ namespace _Scripts
             GameManager.Instance.volume = _tempVolume;
             GameManager.Instance.locale = _tempLocale;
             GameManager.Instance.controlScheme = _tempScheme;
-            GameManager.Instance.isColorBlind = _isColorBlind;
+            GameManager.Instance.isColorBlind = _colorBlindMode;
 
             GameManager.Instance.SaveSettings(); // Save preferences
         }
@@ -121,13 +118,13 @@ namespace _Scripts
             _tempVolume = GameManager.Instance.volume;
             _tempLocale = GameManager.Instance.locale;
             _tempScheme = GameManager.Instance.controlScheme;
-            _isColorBlind = GameManager.Instance.isColorBlind;
+            _colorBlindMode = GameManager.Instance.isColorBlind;
 
             // Update UI elements to reflect original settings
             masterAudioSlider.value = _tempVolume;
             UpdateLocaleButtons(_tempLocale);
             UpdateControlSchemeButtons(_tempScheme);
-            UpdateColorBlindButtons(_isColorBlind);
+            UpdateColorBlindButtons(_colorBlindMode);
         }
     }
 }
