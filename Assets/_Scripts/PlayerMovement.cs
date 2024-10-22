@@ -59,7 +59,7 @@ namespace _Scripts
         #endregion
 
         private Rigidbody2D _rb;
-        private BoxCollider2D _col;
+        private CapsuleCollider2D _col;
         private Vector2 _frameVelocity;
         private bool _cachedQueryStartInColliders;
 
@@ -91,12 +91,24 @@ namespace _Scripts
         }
         private static PlayerMovement _instance;
         #endregion
-        
+
         private void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
-            _col = GetComponent<BoxCollider2D>();
+            _col = GetComponent<CapsuleCollider2D>();
             _cachedQueryStartInColliders = Physics2D.queriesStartInColliders;
+        }
+        private void Start()
+        {
+            // Initialize player position based on the last checkpoint
+            if (CheckpointManager.Instance != null)
+            {
+                Vector3 startPosition = CheckpointManager.Instance.GetLastCheckpoint();
+                if (startPosition != Vector3.zero)
+                {
+                    transform.position = startPosition;
+                }
+            }
         }
 
         private void Update()
@@ -104,7 +116,7 @@ namespace _Scripts
             _time += Time.deltaTime;
             currentMaxSpeed = maxSpeed + DangerMeter.Instance.GetCurrentAmount();
         }
-        
+
         #region Input Handling
         /*
          * Listen for event notifications from InputHandler and call the necessary functions
@@ -182,7 +194,7 @@ namespace _Scripts
 
             // Reset per-frame jump press
             _jumpPressed = false;
-            
+
             //TODO: Check direction of player
         }
 
@@ -199,25 +211,22 @@ namespace _Scripts
             var origin = (Vector2)_col.transform.position + _col.offset;
             var size = _col.size;
 
-            // Ground check
-            var groundHit = Physics2D.BoxCast(
-                origin,
-                size,
-                0f,
+            var groundHit = Physics2D.CapsuleCast(
+                _col.bounds.center,
+                _col.size, _col.direction,
+                0,
                 Vector2.down,
                 groundCheckDistance,
-                ~playerLayer
-            );
+                ~playerLayer);
 
-            // Ceiling check
-            var ceilingHit = Physics2D.BoxCast(
-                origin,
-                size,
-                0f,
+            var ceilingHit = Physics2D.CapsuleCast(
+                _col.bounds.center,
+                _col.size,
+                _col.direction,
+                0,
                 Vector2.up,
                 groundCheckDistance,
-                ~playerLayer
-            );
+                ~playerLayer);
 
             // Ceiling collision
             if (ceilingHit)
@@ -255,9 +264,11 @@ namespace _Scripts
         private bool _endedJumpEarly;
         private bool _coyoteUsable;
         private float _timeJumpWasPressed;
+        private bool _usedDoubleJump;
 
         private bool HasBufferedJump => _bufferedJumpUsable && _time < _timeJumpWasPressed + jumpBuffer;
         private bool CanUseCoyote => _coyoteUsable && !_grounded && _time < _lastTimeGrounded + coyoteTime;
+        private bool CanDoubleJump => !_grounded && !_usedDoubleJump && DangerMeter.Instance.GetCurrentMeterPercentage() >= .66f;
 
         private void HandleJump()
         {
@@ -266,12 +277,17 @@ namespace _Scripts
             {
                 _jumpToConsume = true;
             }
-            
+
             if (_jumpHeld == false && _rb.velocity.y > 0 && !_endedJumpEarly && !_grounded)
             {
                 _endedJumpEarly = true;
             }
-            
+
+            if (_grounded)
+            {
+                _usedDoubleJump = false;
+            }
+
             if (!_jumpToConsume && !HasBufferedJump)
             {
                 return;
@@ -284,6 +300,16 @@ namespace _Scripts
                 _timeJumpWasPressed = 0;
                 _bufferedJumpUsable = false;
                 _coyoteUsable = false;
+                _frameVelocity.y = jumpPower;
+                Jumped?.Invoke();
+            }
+            // Handle double jump if conditions are met
+            else if (CanDoubleJump)
+            {
+                _endedJumpEarly = false;
+                _timeJumpWasPressed = 0;
+                _bufferedJumpUsable = false;
+                _usedDoubleJump = true;
                 _frameVelocity.y = jumpPower;
                 Jumped?.Invoke();
             }

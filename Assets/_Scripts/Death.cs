@@ -5,16 +5,42 @@ using UnityEngine.SceneManagement;
 
 public class Death : MonoBehaviour
 {
-    // Reference to the player object and spawn point
-    // public Transform player;
-    // public Transform spawnPoint;
-
-    // Trigger event for when the player reaches the house
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
+        if (collision.gameObject.CompareTag("Player"))
         {
-            // TODO: Make this load into a fade to black transition then reload the scene
+            Debug.Log("Player died");
+            RespawnPlayer();
+        }
+    }
+
+    private void RespawnPlayer()
+    {
+        if (CheckpointManager.Instance != null)
+        {
+            Vector3 respawnPosition = CheckpointManager.Instance.GetLastCheckpoint();
+            if (respawnPosition != Vector3.zero)
+            {
+                GameObject player = GameObject.FindGameObjectWithTag("Player");
+                if (player != null)
+                {
+                    player.transform.position = respawnPosition;
+                    Debug.Log("Player respawned at: " + respawnPosition);
+                }
+                else
+                {
+                    Debug.LogError("Player object not found!");
+                }
+            }
+            else
+            {
+                Debug.Log("No checkpoint set, reloading scene");
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            }
+        }
+        else
+        {
+            Debug.LogError("CheckpointManager instance is null!");
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
