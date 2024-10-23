@@ -12,7 +12,7 @@ namespace _Scripts
         public float volume;
         public int locale;
         public int controlScheme;
-        public bool isColorBlind;
+        public int isColorBlind;
 
         private void Awake()
         {
@@ -42,7 +42,7 @@ namespace _Scripts
             volume = PlayerPrefs.GetFloat("MasterVolume", 0.5f);
             locale = PlayerPrefs.GetInt("Locale", 0);  // 0 = English
             controlScheme = PlayerPrefs.GetInt("ControlScheme", 0);
-            isColorBlind = PlayerPrefs.GetInt("ColorBlindMode", 0) == 1;
+            isColorBlind = PlayerPrefs.GetInt("ColorBlindMode", 0);
         }
 
         public void SaveSettings()
@@ -51,7 +51,7 @@ namespace _Scripts
             PlayerPrefs.SetFloat("MasterVolume", volume);
             PlayerPrefs.SetInt("Locale", locale);
             PlayerPrefs.SetInt("ControlScheme", controlScheme);
-            PlayerPrefs.SetInt("ColorBlindMode", isColorBlind ? 1 : 0);
+            PlayerPrefs.SetInt("ColorBlindMode", isColorBlind);
             PlayerPrefs.Save();
         }
     
