@@ -119,6 +119,10 @@ MonoBehaviour:
     m_Key: ConfirmKey
     m_Metadata:
       m_Items: []
+  - m_Id: 8397609300209664
+    m_Key: LeaderboardExitKey
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
