@@ -19,7 +19,7 @@ public class SpeedrunTimer : MonoBehaviour {
     public TMP_Text TimeText;
 
     // Creates the speedrun timer
-    static Stopwatch timer = new Stopwatch();
+    public static Stopwatch timer = new Stopwatch();
 
     // Start is called before the first frame update
     void Start() {
