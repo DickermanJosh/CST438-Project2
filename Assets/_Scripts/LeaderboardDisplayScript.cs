@@ -3,15 +3,26 @@ using System.Collections.Generic;
 using System;
 using TMPro;
 using UnityEngine;
+using System.IO;
+using UnityEngine.UIElements;
 
-public class LeaderboardDisplayScript
+public class LeaderboardDisplayScript : MonoBehaviour
 {
 
+    [Header("UI Elements")] 
     public TMP_Text firstTime;
     public TMP_Text secondTime;
     public TMP_Text thirdTime;
-    public TMP_Text FourthTime;
+    public TMP_Text fourthTime;
     public TMP_Text fifthTime;
+
+    void Start() {
+        calculateAssignPlacements();
+    }
+
+    void Update() {
+        //nothing
+    }
 
     public void decryptSave() {
         StreamReader sr = new StreamReader("saveFile.txt");
@@ -23,16 +34,15 @@ public class LeaderboardDisplayScript
             sw.Write(current);
         }
 
-        
-        File.WriteAllText("saveFile.txt", string.Empty);
+        sr.Dispose();
+        sw.Dispose();
 
-        sr.Close();
-        sw.Close();
+        File.WriteAllText("saveFile.txt", string.Empty);
     }
 
     public void encryptSave() {
-        StreamReader sr = new StreamReader("saveCopy.txt");
-        StreamWriter sw = new StreamWriter("saveFile.txt");
+        StreamReader sr = new StreamReader("saveCopy.txt", true);
+        StreamWriter sw = new StreamWriter("saveFile.txt", true);
 
         while(!sr.EndOfStream) {
             char current = (char) sr.Read();
@@ -40,11 +50,10 @@ public class LeaderboardDisplayScript
             sw.Write(current);
         }
 
-        
-        File.WriteAllText("saveCopy.txt", string.Empty);
+        sr.Dispose();
+        sw.Dispose();
 
-        sr.Close();
-        sw.Close();
+        File.WriteAllText("saveCopy.txt", string.Empty);
     }
 
     public void calculateAssignPlacements() {
@@ -54,17 +63,81 @@ public class LeaderboardDisplayScript
         String [] times;
 
         string fullList = sr.ReadToEnd();
+        sr.Dispose();
         times = fullList.Split(',');
 
-        timesIntArray = Array.ConvertAll<string, int>(mystring, int.Parse);
+        for(int i = 0; i < times.Length; i++) {
+            UnityEngine.Debug.Log("Array value: " + times[i]);
+        }
 
-        QuickSort(timesIntArray, 0, timesIntArray.length-1);
+        int [] timesIntArray = new int[times.Length-1];
+        for(int i = 0; i < times.Length-1; i++) {
+            UnityEngine.Debug.Log("Converting " + times[i] + " into an int");
+            timesIntArray [i] = Int32.Parse(times[i]);
+        }
 
-        
+        QuickSort(timesIntArray, 0, timesIntArray.Length-1);
+
+
+        //Sets the first time
+        if(timesIntArray.Length >= 1) {
+            int time1 = timesIntArray[0];
+            TimeSpan ts1 = TimeSpan.FromMilliseconds(time1);
+            string formattedTime1 = string.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts1.Hours, ts1.Minutes, ts1.Seconds, ts1.Milliseconds / 10);
+            firstTime.text = "1. " + formattedTime1;
+        }
+        else {
+            firstTime.text = "No Records Yet";
+        }
+
+        //Sets the second time
+        if(timesIntArray.Length >= 2) {
+            int time2 = timesIntArray[1];
+            TimeSpan ts2 = TimeSpan.FromMilliseconds(time2);
+            string formattedTime2 = string.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts2.Hours, ts2.Minutes, ts2.Seconds, ts2.Milliseconds / 10);
+            secondTime.text = "2. " + formattedTime2;
+        }
+        else {
+            secondTime.text = "No Records Yet";
+        }
+
+        //Sets the third time
+        if(timesIntArray.Length >= 3) {
+            int time3 = timesIntArray[2];
+            TimeSpan ts3 = TimeSpan.FromMilliseconds(time3);
+            string formattedTime3 = string.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts3.Hours, ts3.Minutes, ts3.Seconds, ts3.Milliseconds / 10);
+            thirdTime.text = "3. " + formattedTime3;
+        }
+        else {
+            thirdTime.text = "No Records Yet";
+        }
+
+
+        //Sets the fourth time
+        if(timesIntArray.Length >= 4) {
+            int time4 = timesIntArray[3];
+            TimeSpan ts4 = TimeSpan.FromMilliseconds(time4);
+            string formattedTime4 = string.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts4.Hours, ts4.Minutes, ts4.Seconds, ts4.Milliseconds / 10);
+            fourthTime.text = "4. " + formattedTime4;
+        }
+        else {
+            fourthTime.text = "No Records Yet";
+        }
+
+
+        //Sets the fifth time
+        if(timesIntArray.Length >= 5) {
+            int time5 = timesIntArray[4];
+            TimeSpan ts5 = TimeSpan.FromMilliseconds(time5);
+            string formattedTime5 = string.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts5.Hours, ts5.Minutes, ts5.Seconds, ts5.Milliseconds / 10);
+            fifthTime.text = "5. " + formattedTime5;
+        }
+        else {
+            fifthTime.text = "No Records Yet";
+        }
+
+        encryptSave();
     }
-
-
-
 
     static int Partition(int[] arr, int low, int high) {
         
@@ -97,8 +170,4 @@ public class LeaderboardDisplayScript
             QuickSort(arr, pi + 1, high);
         }
     }
-
-
-
-
 }
