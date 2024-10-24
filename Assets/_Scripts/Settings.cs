@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Localization.Settings;
+using UnityEngine.Serialization;
 
 namespace _Scripts
 {
@@ -14,31 +15,31 @@ namespace _Scripts
         public Button twoHandedButton;
         public Button leftHandedButton;
         public Button rightHandedButton;
-        public Button colorBlindButton;
+        public Button[] colorBlindButtons;
         public Slider masterAudioSlider;
 
         // Temporary variables for settings changes
         private float _tempVolume;
         private int _tempLocale;
         private int _tempScheme;
-        private bool _isColorBlind;
+        private int _colorBlindMode;
 
         void Start()
         {
+            //load locale based on player prefs and changes UI
+            OnClickChangeLocale(GameManager.Instance.locale);
+            
             // Load current settings from GameManager into temp variables and UI
-            _tempVolume = GameManager.instance.volume;
-            _tempLocale = GameManager.instance.locale;
-            _tempScheme = GameManager.instance.controlScheme;
-            _isColorBlind = GameManager.instance.isColorBlind;
+            _tempVolume = GameManager.Instance.volume;
+            _tempLocale = GameManager.Instance.locale;
+            _tempScheme = GameManager.Instance.controlScheme;
+            _colorBlindMode = GameManager.Instance.isColorBlind;
 
             // Set UI based on loaded settings
             masterAudioSlider.value = _tempVolume;
             UpdateLocaleButtons(_tempLocale);
             UpdateControlSchemeButtons(_tempScheme);
-            UpdateColorBlindButton(_isColorBlind);
-            
-            //load locale based on player prefs and changes UI
-            OnClickChangeLocale(GameManager.instance.locale);
+            UpdateColorBlindButtons(_colorBlindMode);
         }
 
         public void ChangeControlScheme(int schemeNum)
@@ -53,6 +54,30 @@ namespace _Scripts
             twoHandedButton.interactable = schemeNum != 0;
             leftHandedButton.interactable = schemeNum != 1;
             rightHandedButton.interactable = schemeNum != 2;
+            
+            ApplyControlScheme(schemeNum);
+        }
+        
+        private void ApplyControlScheme(int schemeNum)
+        {
+            string schemeName;
+            switch (schemeNum)
+            {
+                case 0:
+                    schemeName = "TwoHanded";
+                    break;
+                case 1:
+                    schemeName = "LeftHanded";
+                    break;
+                case 2:
+                    schemeName = "RightHanded";
+                    break;
+                default:
+                    Debug.Log("Error applying control scheme. Case out of bounds");
+                    return;
+            }
+                
+            InputHandler.Instance.SwitchControlScheme(schemeName);
         }
 
         public void OnClickChangeLocale(int localeNumber)
@@ -73,18 +98,26 @@ namespace _Scripts
             // Update button states visually to reflect active/inactive status
             englishButton.interactable = localeNumber != 0;
             spanishButton.interactable = localeNumber != 1;
+            
+            englishButton.OnDeselect(null);
+            spanishButton.OnDeselect(null);
+        }
+        
+        public void UpdateColorBlindMode(int mode)
+        {
+            _colorBlindMode = mode;
+            UpdateColorBlindButtons(mode);
+            //should update immediately when pressed.
+            
         }
 
-        public void ChangeColorBlindMode()
+        private void UpdateColorBlindButtons(int mode)
         {
-            _isColorBlind = !_isColorBlind; // Toggle color blind mode
-            UpdateColorBlindButton(_isColorBlind); // Update UI
-        }
-
-        private void UpdateColorBlindButton(bool isColorBlind)
-        {
-            // Change button appearance based on color blind mode
-            colorBlindButton.GetComponentInChildren<TextMeshProUGUI>().text = isColorBlind ? "Color Blind: ON" : "Color Blind: OFF";
+            for (int i = 0; i < colorBlindButtons.Length; i++)
+            {
+                // Disable the button for the selected mode, enable others
+                colorBlindButtons[i].interactable = (i != mode);
+            }
         }
 
         public void ChangeVolume(float volume)
@@ -95,27 +128,27 @@ namespace _Scripts
         public void QuitAndSave()
         {
             // Save temp settings into GameManager and PlayerPrefs
-            GameManager.instance.volume = _tempVolume;
-            GameManager.instance.locale = _tempLocale;
-            GameManager.instance.controlScheme = _tempScheme;
-            GameManager.instance.isColorBlind = _isColorBlind;
+            GameManager.Instance.volume = _tempVolume;
+            GameManager.Instance.locale = _tempLocale;
+            GameManager.Instance.controlScheme = _tempScheme;
+            GameManager.Instance.isColorBlind = _colorBlindMode;
 
-            GameManager.instance.SaveSettings(); // Save preferences
+            GameManager.Instance.SaveSettings(); // Save preferences
         }
 
         public void JustQuit()
         {
             // Reset the UI to the original settings from GameManager
-            _tempVolume = GameManager.instance.volume;
-            _tempLocale = GameManager.instance.locale;
-            _tempScheme = GameManager.instance.controlScheme;
-            _isColorBlind = GameManager.instance.isColorBlind;
+            _tempVolume = GameManager.Instance.volume;
+            _tempLocale = GameManager.Instance.locale;
+            _tempScheme = GameManager.Instance.controlScheme;
+            _colorBlindMode = GameManager.Instance.isColorBlind;
 
             // Update UI elements to reflect original settings
             masterAudioSlider.value = _tempVolume;
             UpdateLocaleButtons(_tempLocale);
             UpdateControlSchemeButtons(_tempScheme);
-            UpdateColorBlindButton(_isColorBlind);
+            UpdateColorBlindButtons(_colorBlindMode);
         }
     }
 }

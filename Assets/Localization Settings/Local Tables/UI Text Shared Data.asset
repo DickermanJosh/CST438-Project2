@@ -71,6 +71,58 @@ MonoBehaviour:
     m_Key: English/Espanol_Key
     m_Metadata:
       m_Items: []
+  - m_Id: 5151505483583488
+    m_Key: EnableKey
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5151606264320000
+    m_Key: DisableKey
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7896732801507328
+    m_Key: ProtanopiaKey
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7898256659259392
+    m_Key: ProtanomalyKey
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7965062581264384
+    m_Key: DeuteranopiaKey
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7965306194829312
+    m_Key: DeuteranomalyKey
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7965851974443008
+    m_Key: TritanopiaKey
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7966075262410752
+    m_Key: TritanomalyKey
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7966406197190656
+    m_Key: AchromatopsiaKey
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7966558421065728
+    m_Key: AchromatomalyKey
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7974226170814464
+    m_Key: SelectColorBlindModeKey
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7976774210494464
+    m_Key: ConfirmKey
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8397609300209664
+    m_Key: LeaderboardExitKey
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

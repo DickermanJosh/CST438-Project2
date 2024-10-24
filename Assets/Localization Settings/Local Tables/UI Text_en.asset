@@ -74,6 +74,58 @@ MonoBehaviour:
     m_Localized: English
     m_Metadata:
       m_Items: []
+  - m_Id: 5151505483583488
+    m_Localized: Enable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5151606264320000
+    m_Localized: Disable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7896732801507328
+    m_Localized: Protanopia
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7898256659259392
+    m_Localized: protanomaly
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7965062581264384
+    m_Localized: Deuteranopia
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7965306194829312
+    m_Localized: Deuteranomaly
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7965851974443008
+    m_Localized: Tritanopia
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7966075262410752
+    m_Localized: Tritanomaly
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7966406197190656
+    m_Localized: Achromatopsia
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7966558421065728
+    m_Localized: Achromatomaly
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7974226170814464
+    m_Localized: Select Color Blind Mode
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7976774210494464
+    m_Localized: Confirm
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8397609300209664
+    m_Localized: Exit
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

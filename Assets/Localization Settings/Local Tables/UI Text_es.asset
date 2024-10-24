@@ -27,7 +27,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 19909197713408
-    m_Localized: "Configuraci\xF3n del Controlador"
+    m_Localized: Configuracion Controlador
     m_Metadata:
       m_Items: []
   - m_Id: 16347591888896
@@ -39,7 +39,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 16148878348288
-    m_Localized: "Clasificaci\xF3n"
+    m_Localized: Clasificacion
     m_Metadata:
       m_Items: []
   - m_Id: 20519108235264
@@ -72,6 +72,60 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 2991619624910848
     m_Localized: Espanol
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5151505483583488
+    m_Localized: Activar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5151606264320000
+    m_Localized: Desactivar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7896732801507328
+    m_Localized: protanopia
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7898256659259392
+    m_Localized: protanomalia
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7965062581264384
+    m_Localized: Deuteranopia
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7965306194829312
+    m_Localized: Deuteranomalia
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7965851974443008
+    m_Localized: Tritanopia
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7966075262410752
+    m_Localized: Tritanomalia
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7966406197190656
+    m_Localized: Acromatopsia
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7966558421065728
+    m_Localized: Acromatomalia
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7974226170814464
+    m_Localized: '
+
+      Seleccione el modo daltonico'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7976774210494464
+    m_Localized: Confirmar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8397609300209664
+    m_Localized: Salir
     m_Metadata:
       m_Items: []
   references:
