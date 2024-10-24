@@ -10,7 +10,8 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 
 
-public class SpeedrunTimer : MonoBehaviour {
+public class SpeedrunTimer : MonoBehaviour
+{
 
     public int testCount = 0;
 
@@ -18,10 +19,11 @@ public class SpeedrunTimer : MonoBehaviour {
     public Text TimeText;
 
     // Creates the speedrun timer
-    static Stopwatch timer = new Stopwatch();
+    public static Stopwatch timer = new Stopwatch();
 
     // Start is called before the first frame update
-    void Start() {
+    void Start()
+    {
 
         // Starts the speedrun timer
         timer.Start();
@@ -29,20 +31,22 @@ public class SpeedrunTimer : MonoBehaviour {
         TimeSpan ts = timer.Elapsed;
         string elapsedTime = string.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
 
-        TimeText.text = elapsedTime; 
-        
+        TimeText.text = elapsedTime;
+
     }
 
     // Update is called once per frame
-    void Update() {
+    void Update()
+    {
 
         testCount++;
 
         TimeSpan ts = timer.Elapsed;
         string elapsedTime = string.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
-        
+
         // Win condition, reached rehab
-        if(testCount >= 3000) {
+        if (testCount >= 3000)
+        {
             UnityEngine.Debug.Log("Initializing reset operation");
 
             TimeText.text = elapsedTime;
@@ -68,6 +72,6 @@ public class SpeedrunTimer : MonoBehaviour {
         // Else just updates the timer image
         TimeText.text = elapsedTime;
 
-        
+
     }
 }
