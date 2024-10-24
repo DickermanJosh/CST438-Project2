@@ -87,7 +87,7 @@ public class LeaderboardDisplayScript : MonoBehaviour
             firstTime.text = formattedTime1;
         }
         else {
-            firstTime.text = "No Records Yet";
+            firstTime.text = "XX:XX:XX.XX";
         }
 
         //Sets the second time
@@ -98,7 +98,7 @@ public class LeaderboardDisplayScript : MonoBehaviour
             secondTime.text = formattedTime2;
         }
         else {
-            secondTime.text = "No Records Yet";
+            secondTime.text = "XX:XX:XX.XX";
         }
 
         //Sets the third time
@@ -109,7 +109,7 @@ public class LeaderboardDisplayScript : MonoBehaviour
             thirdTime.text = formattedTime3;
         }
         else {
-            thirdTime.text = "No Records Yet";
+            thirdTime.text = "XX:XX:XX.XX";
         }
 
 
@@ -121,7 +121,7 @@ public class LeaderboardDisplayScript : MonoBehaviour
             fourthTime.text = formattedTime4;
         }
         else {
-            fourthTime.text = "No Records Yet";
+            fourthTime.text = "XX:XX:XX.XX";
         }
 
 
@@ -133,7 +133,7 @@ public class LeaderboardDisplayScript : MonoBehaviour
             fifthTime.text = formattedTime5;
         }
         else {
-            fifthTime.text = "No Records Yet";
+            fifthTime.text = "XX:XX:XX.XX";
         }
 
         encryptSave();
