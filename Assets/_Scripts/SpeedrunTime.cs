@@ -43,7 +43,7 @@ public class SpeedrunTimer : MonoBehaviour {
         string elapsedTime = string.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
         
         // Win condition, reached rehab
-        if(testCount >= 3000) {
+        if(false) {
             UnityEngine.Debug.Log("Initializing reset operation");
 
             TimeText.text = elapsedTime;
