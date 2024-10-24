@@ -11,7 +11,8 @@ using UnityEngine.Serialization;
 using TMPro;
 
 
-public class SpeedrunTimer : MonoBehaviour {
+public class SpeedrunTimer : MonoBehaviour
+{
 
     public int testCount = 0;
 
@@ -19,10 +20,11 @@ public class SpeedrunTimer : MonoBehaviour {
     public TMP_Text TimeText;
 
     // Creates the speedrun timer
-    static Stopwatch timer = new Stopwatch();
+    public static Stopwatch timer = new Stopwatch();
 
     // Start is called before the first frame update
-    void Start() {
+    void Start()
+    {
 
         // Starts the speedrun timer
         timer.Start();
@@ -30,56 +32,64 @@ public class SpeedrunTimer : MonoBehaviour {
         TimeSpan ts = timer.Elapsed;
         string elapsedTime = string.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
 
-        TimeText.text = elapsedTime; 
-        
+        TimeText.text = elapsedTime;
+
     }
 
     // Update is called once per frame
-    void Update() {
+    void Update()
+    {
 
         testCount++;
 
         TimeSpan ts = timer.Elapsed;
-        string elapsedTime = string.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
+        string elapsedTime = string.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds,
+            ts.Milliseconds / 10);
 
         GameObject player = GameObject.Find("Player");
-        
+
         // Win condition, reached rehab
-        if((float) player.transform.position.x >= 296.5) {
-            UnityEngine.Debug.Log("Initializing reset operation");
-            decryptSave();
 
+        if (testCount >= 3000)
+        {
+            if ((float)player.transform.position.x >= 296.5)
+            {
+                UnityEngine.Debug.Log("Initializing reset operation");
+                decryptSave();
+
+                TimeText.text = elapsedTime;
+
+                StreamWriter sw = new StreamWriter("saveCopy.txt", true);
+
+                timer.Stop();
+                timer.Reset();
+
+                int saveTime = (int)ts.TotalMilliseconds;
+
+                UnityEngine.Debug.Log("Writing " + saveTime + " to save file");
+                sw.Write(saveTime + ",");
+                sw.Dispose();
+
+                encryptSave();
+
+                TimeText.text = "00:00:00.00";
+                SceneManager.LoadScene("SceneManager.GetActiveScene().name");
+            }
+
+            // Else just updates the timer image
             TimeText.text = elapsedTime;
-
-            StreamWriter sw = new StreamWriter("saveCopy.txt", true);
-
-            timer.Stop();
-            timer.Reset();
-
-            int saveTime = (int) ts.TotalMilliseconds;
-            
-            UnityEngine.Debug.Log("Writing " + saveTime + " to save file");
-            sw.Write(saveTime + ",");
-            sw.Dispose();
-
-            encryptSave();
-
-            TimeText.text = "00:00:00.00";
-            SceneManager.LoadScene("SceneManager.GetActiveScene().name");
         }
-
-        // Else just updates the timer image
-        TimeText.text = elapsedTime;
-        
     }
 
-    public void decryptSave() {
+    public void decryptSave()
+    {
         StreamReader sr = new StreamReader("saveFile.txt", true);
         StreamWriter sw = new StreamWriter("saveCopy.txt", true);
 
-        while(!sr.EndOfStream) {
-            char current = (char) sr.Read();
-            current = (char) (current - 10);
+        while (!sr.EndOfStream)
+        {
+            char current = (char)sr.Read();
+            current = (char)(current - 10);
             sw.Write(current);
         }
 
@@ -89,13 +99,15 @@ public class SpeedrunTimer : MonoBehaviour {
         File.WriteAllText("saveFile.txt", string.Empty);
     }
 
-    public void encryptSave() {
+    public void encryptSave()
+    {
         StreamReader sr = new StreamReader("saveCopy.txt", true);
         StreamWriter sw = new StreamWriter("saveFile.txt", true);
 
-        while(!sr.EndOfStream) {
-            char current = (char) sr.Read();
-            current = (char) (current + 10);
+        while (!sr.EndOfStream)
+        {
+            char current = (char)sr.Read();
+            current = (char)(current + 10);
             sw.Write(current);
         }
 
