@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem; // Required for the new Input System
 
@@ -53,7 +54,7 @@ namespace _Scripts
             _playerInputActions.Player.Jump.performed += OnJumpHeldPerformed;
             _playerInputActions.Player.Jump.canceled += OnJumpCanceled;
             
-            _playerInputActions.UI.Pause.performed += OnPausePerformed;
+            _playerInputActions.Player.Pause.performed += OnPausePerformed;
         }
 
         private void OnDisable()
@@ -66,7 +67,7 @@ namespace _Scripts
             _playerInputActions.Player.Jump.performed -= OnJumpHeldPerformed;
             _playerInputActions.Player.Jump.canceled -= OnJumpCanceled;
             
-            _playerInputActions.UI.Pause.performed -= OnPausePerformed;
+            _playerInputActions.Player.Pause.performed -= OnPausePerformed;
 
             // Disable the input actions
             _playerInputActions.Disable();
@@ -75,6 +76,7 @@ namespace _Scripts
         // Handle Move inputs
         private void OnMovePerformed(InputAction.CallbackContext context)
         {
+            Debug.Log("Move");
             Vector2 moveInput = context.ReadValue<Vector2>();
             OnMove?.Invoke(moveInput);
         }
@@ -87,6 +89,7 @@ namespace _Scripts
         // Handle Jump inputs
         private void OnJumpStarted(InputAction.CallbackContext context)
         {
+            Debug.Log("Jump");
             OnJumpDown?.Invoke();
         }
 
@@ -106,6 +109,21 @@ namespace _Scripts
         {
             Debug.Log("Pause Pressed");
             OnPausePressed?.Invoke();
+        }
+        
+        public void SwitchControlScheme(string schemeName)
+        {
+            // Find the control scheme by name
+            var controlScheme = _playerInputActions.controlSchemes.FirstOrDefault(cs => cs.name == schemeName);
+
+            // Set the binding mask to the selected control scheme
+            _playerInputActions.bindingMask = InputBinding.MaskByGroups(controlScheme.bindingGroup);
+
+            // Disable and re-enable the action maps to apply the new binding mask
+            _playerInputActions.Disable();
+            _playerInputActions.Enable();
+
+            Debug.Log($"Switched to {schemeName} control scheme.");
         }
     }
 }
