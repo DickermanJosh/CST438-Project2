@@ -84,7 +84,7 @@ public class LeaderboardDisplayScript : MonoBehaviour
             int time1 = timesIntArray[0];
             TimeSpan ts1 = TimeSpan.FromMilliseconds(time1);
             string formattedTime1 = string.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts1.Hours, ts1.Minutes, ts1.Seconds, ts1.Milliseconds / 10);
-            firstTime.text = "1. " + formattedTime1;
+            firstTime.text = formattedTime1;
         }
         else {
             firstTime.text = "No Records Yet";
@@ -95,7 +95,7 @@ public class LeaderboardDisplayScript : MonoBehaviour
             int time2 = timesIntArray[1];
             TimeSpan ts2 = TimeSpan.FromMilliseconds(time2);
             string formattedTime2 = string.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts2.Hours, ts2.Minutes, ts2.Seconds, ts2.Milliseconds / 10);
-            secondTime.text = "2. " + formattedTime2;
+            secondTime.text = formattedTime2;
         }
         else {
             secondTime.text = "No Records Yet";
@@ -106,7 +106,7 @@ public class LeaderboardDisplayScript : MonoBehaviour
             int time3 = timesIntArray[2];
             TimeSpan ts3 = TimeSpan.FromMilliseconds(time3);
             string formattedTime3 = string.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts3.Hours, ts3.Minutes, ts3.Seconds, ts3.Milliseconds / 10);
-            thirdTime.text = "3. " + formattedTime3;
+            thirdTime.text = formattedTime3;
         }
         else {
             thirdTime.text = "No Records Yet";
@@ -118,7 +118,7 @@ public class LeaderboardDisplayScript : MonoBehaviour
             int time4 = timesIntArray[3];
             TimeSpan ts4 = TimeSpan.FromMilliseconds(time4);
             string formattedTime4 = string.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts4.Hours, ts4.Minutes, ts4.Seconds, ts4.Milliseconds / 10);
-            fourthTime.text = "4. " + formattedTime4;
+            fourthTime.text = formattedTime4;
         }
         else {
             fourthTime.text = "No Records Yet";
@@ -130,7 +130,7 @@ public class LeaderboardDisplayScript : MonoBehaviour
             int time5 = timesIntArray[4];
             TimeSpan ts5 = TimeSpan.FromMilliseconds(time5);
             string formattedTime5 = string.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts5.Hours, ts5.Minutes, ts5.Seconds, ts5.Milliseconds / 10);
-            fifthTime.text = "5. " + formattedTime5;
+            fifthTime.text = formattedTime5;
         }
         else {
             fifthTime.text = "No Records Yet";
