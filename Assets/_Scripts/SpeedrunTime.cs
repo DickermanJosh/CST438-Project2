@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.IO;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
+using TMPro;
 
 
 public class SpeedrunTimer : MonoBehaviour {
@@ -15,7 +16,7 @@ public class SpeedrunTimer : MonoBehaviour {
     public int testCount = 0;
 
     [Header("UI Elements")]
-    public Text TimeText;
+    public TMP_Text TimeText;
 
     // Creates the speedrun timer
     static Stopwatch timer = new Stopwatch();
