@@ -54,6 +54,30 @@ namespace _Scripts
             twoHandedButton.interactable = schemeNum != 0;
             leftHandedButton.interactable = schemeNum != 1;
             rightHandedButton.interactable = schemeNum != 2;
+            
+            ApplyControlScheme(schemeNum);
+        }
+        
+        private void ApplyControlScheme(int schemeNum)
+        {
+            string schemeName;
+            switch (schemeNum)
+            {
+                case 0:
+                    schemeName = "TwoHanded";
+                    break;
+                case 1:
+                    schemeName = "LeftHanded";
+                    break;
+                case 2:
+                    schemeName = "RightHanded";
+                    break;
+                default:
+                    Debug.Log("Error applying control scheme. Case out of bounds");
+                    return;
+            }
+                
+            InputHandler.Instance.SwitchControlScheme(schemeName);
         }
 
         public void OnClickChangeLocale(int localeNumber)
