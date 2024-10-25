@@ -7,7 +7,7 @@ namespace _Scripts
     {
         public static bool IsPaused;
         public GameObject pauseMenuUI;
-        public GameObject settingsMenuUI;
+        // public GameObject settingsMenuUI;
 
         private void Start()
         {
@@ -65,10 +65,10 @@ namespace _Scripts
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
 
-        public void ToggleSettingsMenu()
-        {
-            settingsMenuUI.SetActive(!settingsMenuUI.activeSelf);
-        }
+        // public void ToggleSettingsMenu()
+        // {
+        //     settingsMenuUI.SetActive(!settingsMenuUI.activeSelf);
+        // }
 
         public void QuitToMainMenu()
         {

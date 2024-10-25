@@ -72,6 +72,12 @@ namespace _Scripts
         #endregion
 
         private float _time;
+        
+        private AudioSource _audioSource;
+        public AudioClip jumpClip;
+        public AudioClip footstepClip;
+        public float footstepInterval = 0.25f; // Time between footsteps
+        private float _footstepTimer;
 
         #region Singleton
 
@@ -97,6 +103,7 @@ namespace _Scripts
             _rb = GetComponent<Rigidbody2D>();
             _col = GetComponent<CapsuleCollider2D>();
             _cachedQueryStartInColliders = Physics2D.queriesStartInColliders;
+            _audioSource = GetComponent<AudioSource>();
         }
         private void Start()
         {
@@ -115,6 +122,7 @@ namespace _Scripts
         {
             _time += Time.deltaTime;
             currentMaxSpeed = maxSpeed + DangerMeter.Instance.GetCurrentAmount();
+            HandleFootstepSound();
         }
 
         #region Input Handling
@@ -301,6 +309,7 @@ namespace _Scripts
                 _bufferedJumpUsable = false;
                 _coyoteUsable = false;
                 _frameVelocity.y = jumpPower;
+                _audioSource.PlayOneShot(jumpClip);
                 Jumped?.Invoke();
             }
             // Handle double jump if conditions are met
@@ -311,6 +320,7 @@ namespace _Scripts
                 _bufferedJumpUsable = false;
                 _usedDoubleJump = true;
                 _frameVelocity.y = jumpPower;
+                _audioSource.PlayOneShot(jumpClip);
                 Jumped?.Invoke();
             }
 
@@ -347,6 +357,32 @@ namespace _Scripts
             {
                 // Accelerate
                 _frameVelocity.x = Mathf.MoveTowards(_frameVelocity.x, move.x * currentMaxSpeed, acceleration * Time.fixedDeltaTime);
+            }
+        }
+
+        private float lastFootstepTime;
+        private void HandleFootstepSound()
+        {
+            // Check if the player is grounded and moving
+            if (_grounded && Mathf.Abs(FrameInput.x) > 0)
+            {
+                _footstepTimer += Time.deltaTime;
+
+                if (_footstepTimer >= footstepInterval)
+                {
+                    if (footstepClip != null)
+                    {
+                        Debug.Log("Footstep");
+                        _audioSource.PlayOneShot(footstepClip);
+                    }
+                    
+                    _footstepTimer = 0f;
+                }
+            }
+            else
+            {
+                // Reset timer when not moving
+                _footstepTimer = footstepInterval;
             }
         }
 
