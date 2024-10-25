@@ -119,6 +119,14 @@ MonoBehaviour:
     m_Key: ConfirmKey
     m_Metadata:
       m_Items: []
+  - m_Id: 8622281597460480
+    m_Key: ResumeKey
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8623076770390016
+    m_Key: RestartKey
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

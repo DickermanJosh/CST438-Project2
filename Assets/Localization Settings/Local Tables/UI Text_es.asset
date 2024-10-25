@@ -124,6 +124,14 @@ MonoBehaviour:
     m_Localized: Confirmar
     m_Metadata:
       m_Items: []
+  - m_Id: 8622281597460480
+    m_Localized: Reanudar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8623076770390016
+    m_Localized: Reanudar
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
