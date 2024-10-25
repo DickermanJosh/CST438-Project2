@@ -71,7 +71,16 @@ namespace _Scripts
 
         #endregion
 
+        public ParticleSystem movementParticles;
+        public ParticleSystem fallParticles;
         private float _time;
+        
+        private AudioSource _audioSource;
+        public AudioClip jumpClip;
+        public AudioClip footstepClip;
+        public float footstepInterval = 0.25f; // Time between footsteps
+        private float _footstepTimer;
+        private bool _wasGroundedLastFrame;
 
         #region Singleton
 
@@ -97,6 +106,7 @@ namespace _Scripts
             _rb = GetComponent<Rigidbody2D>();
             _col = GetComponent<CapsuleCollider2D>();
             _cachedQueryStartInColliders = Physics2D.queriesStartInColliders;
+            _audioSource = GetComponent<AudioSource>();
         }
         private void Start()
         {
@@ -115,6 +125,14 @@ namespace _Scripts
         {
             _time += Time.deltaTime;
             currentMaxSpeed = maxSpeed + DangerMeter.Instance.GetCurrentAmount();
+            HandleFootstepSound();
+
+            if (!_wasGroundedLastFrame && _grounded)
+            {
+                fallParticles.Play();
+            }
+            
+            _wasGroundedLastFrame = _grounded;
         }
 
         #region Input Handling
@@ -195,7 +213,7 @@ namespace _Scripts
             // Reset per-frame jump press
             _jumpPressed = false;
 
-            //TODO: Check direction of player
+            
         }
 
         #region Collisions
@@ -301,6 +319,8 @@ namespace _Scripts
                 _bufferedJumpUsable = false;
                 _coyoteUsable = false;
                 _frameVelocity.y = jumpPower;
+                _audioSource.PlayOneShot(jumpClip);
+                fallParticles.Play();
                 Jumped?.Invoke();
             }
             // Handle double jump if conditions are met
@@ -311,6 +331,8 @@ namespace _Scripts
                 _bufferedJumpUsable = false;
                 _usedDoubleJump = true;
                 _frameVelocity.y = jumpPower;
+                _audioSource.PlayOneShot(jumpClip);
+                fallParticles.Play();
                 Jumped?.Invoke();
             }
 
@@ -347,6 +369,34 @@ namespace _Scripts
             {
                 // Accelerate
                 _frameVelocity.x = Mathf.MoveTowards(_frameVelocity.x, move.x * currentMaxSpeed, acceleration * Time.fixedDeltaTime);
+                if (Mathf.Abs(_frameVelocity.x ) >= 5f)
+                    movementParticles.Play();
+            }
+        }
+
+        private float lastFootstepTime;
+        private void HandleFootstepSound()
+        {
+            // Check if the player is grounded and moving
+            if (_grounded && Mathf.Abs(FrameInput.x) > 0)
+            {
+                _footstepTimer += Time.deltaTime;
+
+                if (_footstepTimer >= footstepInterval)
+                {
+                    if (footstepClip != null)
+                    {
+                        Debug.Log("Footstep");
+                        _audioSource.PlayOneShot(footstepClip);
+                    }
+                    
+                    _footstepTimer = 0f;
+                }
+            }
+            else
+            {
+                // Reset timer when not moving
+                _footstepTimer = footstepInterval;
             }
         }
 
