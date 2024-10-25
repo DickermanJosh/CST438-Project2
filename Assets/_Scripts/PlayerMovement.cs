@@ -71,6 +71,7 @@ namespace _Scripts
 
         #endregion
 
+        public ParticleSystem movementParticles;
         private float _time;
         
         private AudioSource _audioSource;
@@ -357,6 +358,8 @@ namespace _Scripts
             {
                 // Accelerate
                 _frameVelocity.x = Mathf.MoveTowards(_frameVelocity.x, move.x * currentMaxSpeed, acceleration * Time.fixedDeltaTime);
+                if (Mathf.Abs(_frameVelocity.x ) >= 5f)
+                    movementParticles.Play();
             }
         }
 

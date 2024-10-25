@@ -909,7 +909,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 3.2178218
+  orthographic size: 1.8910891
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -31419,6 +31419,11 @@ Transform:
   - {fileID: 1966108051}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!198 &635769983 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 3694252309947428612, guid: 7d741d99e0d7e4730b3ba45ea0e7cccc, type: 3}
+  m_PrefabInstance: {fileID: 799453887}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &649940414 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1774781003668205639, guid: 6b968f1d35466439fa7f7abc24c8a670, type: 3}
@@ -32538,6 +32543,10 @@ PrefabInstance:
       propertyPath: footstepInterval
       value: 0.3
       objectReference: {fileID: 0}
+    - target: {fileID: 132142133966680316, guid: 7d741d99e0d7e4730b3ba45ea0e7cccc, type: 3}
+      propertyPath: movementParticles
+      value: 
+      objectReference: {fileID: 635769983}
     - target: {fileID: 496379358134209070, guid: 7d741d99e0d7e4730b3ba45ea0e7cccc, type: 3}
       propertyPath: m_Name
       value: Player
