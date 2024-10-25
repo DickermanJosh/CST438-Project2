@@ -123,7 +123,11 @@ namespace _Scripts
         public void ChangeVolume(float volume)
         {
             _tempVolume = volume; // Update temp volume value from slider
+            
+            GameManager.Instance.ApplyVolume(volume);
         }
+
+
 
         public void QuitAndSave()
         {

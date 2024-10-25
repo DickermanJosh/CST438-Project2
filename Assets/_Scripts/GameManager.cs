@@ -38,6 +38,8 @@ namespace _Scripts
             StartCoroutine(InitializeAndChangeLocale(locale)); 
             
             ApplyColorBlindSetting();
+            
+            ApplyVolume(volume);
         }
 
         public void LoadSettings()
@@ -73,6 +75,16 @@ namespace _Scripts
             {
                 Debug.LogError("Colorblindness.Instance is null. Ensure that the Colorblindness script is initialized before GameManager.");
             }
+        }
+        
+        public void ApplyVolume(float volume)
+        {
+            // This is obnoxiously loud if it's not adjusted, it will drown out all other sounds
+            var music = GameManager.Instance.gameObject.GetComponent<AudioSource>();
+            music.volume = Mathf.Clamp(volume / 3f, 0f, 1f);
+
+            var playerSounds = PlayerMovement.Instance.gameObject.GetComponent<AudioSource>();
+            playerSounds.volume = Mathf.Clamp(volume, 0f, 1f); 
         }
     
         IEnumerator InitializeAndChangeLocale(int localeNumber)
