@@ -124,13 +124,10 @@ namespace _Scripts
         {
             _tempVolume = volume; // Update temp volume value from slider
             
-            // Adjust the global volume as the slider is updated
-            var music = GameManager.Instance.gameObject.GetComponent<AudioSource>();
-            music.volume = _tempVolume;
-
-            var playerSounds = PlayerMovement.Instance.gameObject.GetComponent<AudioSource>();
-            playerSounds.volume = _tempVolume;
+            GameManager.Instance.ApplyVolume(volume);
         }
+
+
 
         public void QuitAndSave()
         {
