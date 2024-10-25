@@ -976,7 +976,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 1.2772278
+  orthographic size: 2.7871287
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -31997,6 +31997,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 381985777303436296, guid: c15212363292e46c59be544008e81dbc, type: 3}
+      propertyPath: m_fontStyle
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 381985777303436296, guid: c15212363292e46c59be544008e81dbc, type: 3}
+      propertyPath: m_TextStyleHashCode
+      value: -1183493901
+      objectReference: {fileID: 0}
     - target: {fileID: 826794100030250508, guid: c15212363292e46c59be544008e81dbc, type: 3}
       propertyPath: m_Camera
       value: 
@@ -32004,6 +32012,10 @@ PrefabInstance:
     - target: {fileID: 826794100030250508, guid: c15212363292e46c59be544008e81dbc, type: 3}
       propertyPath: m_SortingLayerID
       value: -977777631
+      objectReference: {fileID: 0}
+    - target: {fileID: 826794100030250508, guid: c15212363292e46c59be544008e81dbc, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 3094300368966706920, guid: c15212363292e46c59be544008e81dbc, type: 3}
       propertyPath: m_Pivot.x
@@ -32083,6 +32095,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3094300368966706920, guid: c15212363292e46c59be544008e81dbc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5625147532484482622, guid: c15212363292e46c59be544008e81dbc, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7214762709906092755, guid: c15212363292e46c59be544008e81dbc, type: 3}
@@ -49071,6 +49087,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 771396976412303597, guid: d3c1b20251f4d4464899f970b64b4cae, type: 3}
+      propertyPath: DoubleJumpText
+      value: 
+      objectReference: {fileID: 1828811576}
+    - target: {fileID: 771396976412303597, guid: d3c1b20251f4d4464899f970b64b4cae, type: 3}
       propertyPath: dangerBarImage
       value: 
       objectReference: {fileID: 37864305}
@@ -56501,6 +56521,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1828811576 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5625147532484482622, guid: c15212363292e46c59be544008e81dbc, type: 3}
+  m_PrefabInstance: {fileID: 559597147}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1843283624
 GameObject:
   m_ObjectHideFlags: 0

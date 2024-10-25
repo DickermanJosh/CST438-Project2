@@ -9,6 +9,8 @@ public class DangerMeter : MonoBehaviour
 {
     [SerializeField] private float maxAmount = 10f; 
     [SerializeField] private float currentAmount;
+
+    public GameObject DoubleJumpText;
     public float GetCurrentAmount() => currentAmount;
     public float GetCurrentMeterPercentage() => currentAmount / maxAmount;
 
@@ -80,14 +82,17 @@ public class DangerMeter : MonoBehaviour
             if (fillPercentage < 0.33f)
             {
                 dangerBarImage.color = firstColor;
+                DoubleJumpText.SetActive(false);
             }
             else if (fillPercentage < 0.66f)
             {
                 dangerBarImage.color = secondColor;
+                DoubleJumpText.SetActive(false);
             }
             else
             {
                 dangerBarImage.color = thirdColor;
+                DoubleJumpText.SetActive(true);
             }
         }
     }
