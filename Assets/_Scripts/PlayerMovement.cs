@@ -72,6 +72,7 @@ namespace _Scripts
         #endregion
 
         public ParticleSystem movementParticles;
+        public ParticleSystem fallParticles;
         private float _time;
         
         private AudioSource _audioSource;
@@ -79,6 +80,7 @@ namespace _Scripts
         public AudioClip footstepClip;
         public float footstepInterval = 0.25f; // Time between footsteps
         private float _footstepTimer;
+        private bool _wasGroundedLastFrame;
 
         #region Singleton
 
@@ -124,6 +126,13 @@ namespace _Scripts
             _time += Time.deltaTime;
             currentMaxSpeed = maxSpeed + DangerMeter.Instance.GetCurrentAmount();
             HandleFootstepSound();
+
+            if (!_wasGroundedLastFrame && _grounded)
+            {
+                fallParticles.Play();
+            }
+            
+            _wasGroundedLastFrame = _grounded;
         }
 
         #region Input Handling
@@ -204,7 +213,7 @@ namespace _Scripts
             // Reset per-frame jump press
             _jumpPressed = false;
 
-            //TODO: Check direction of player
+            
         }
 
         #region Collisions
@@ -311,6 +320,7 @@ namespace _Scripts
                 _coyoteUsable = false;
                 _frameVelocity.y = jumpPower;
                 _audioSource.PlayOneShot(jumpClip);
+                fallParticles.Play();
                 Jumped?.Invoke();
             }
             // Handle double jump if conditions are met
@@ -322,6 +332,7 @@ namespace _Scripts
                 _usedDoubleJump = true;
                 _frameVelocity.y = jumpPower;
                 _audioSource.PlayOneShot(jumpClip);
+                fallParticles.Play();
                 Jumped?.Invoke();
             }
 
