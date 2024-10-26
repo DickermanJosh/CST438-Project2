@@ -976,7 +976,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 1.2871287
+  orthographic size: 2.727723
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -33125,7 +33125,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 300997044646531056, guid: 3725b6cb5e8ff497bb6bddb88d81ed1e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.65
+      value: 2.619
       objectReference: {fileID: 0}
     - target: {fileID: 300997044646531056, guid: 3725b6cb5e8ff497bb6bddb88d81ed1e, type: 3}
       propertyPath: m_LocalPosition.z
@@ -33794,6 +33794,10 @@ PrefabInstance:
       propertyPath: fallParticles
       value: 
       objectReference: {fileID: 49177572}
+    - target: {fileID: 132142133966680316, guid: 7d741d99e0d7e4730b3ba45ea0e7cccc, type: 3}
+      propertyPath: airDeceleration
+      value: 40
+      objectReference: {fileID: 0}
     - target: {fileID: 132142133966680316, guid: 7d741d99e0d7e4730b3ba45ea0e7cccc, type: 3}
       propertyPath: checkpointSystem
       value: 
