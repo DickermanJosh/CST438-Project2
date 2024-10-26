@@ -1,6 +1,7 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.Localization.Settings;
 using UnityEngine.Serialization;
@@ -10,19 +11,37 @@ namespace _Scripts
     public class Settings : MonoBehaviour
     {
         // UI elements for different settings
-        public Button englishButton;
-        public Button spanishButton;
+        //row 1
         public Button twoHandedButton;
+        
+        //row 2
         public Button leftHandedButton;
         public Button rightHandedButton;
-        public Button[] colorBlindButtons;
+        
+        //row3
         public Slider masterAudioSlider;
+        
+        //row4
+        public Button ColorBlindEnableButton;
+        public Button[] colorBlindButtons; //first index is the disable button
+        
+        //row 5
+        public Button spanishButton;
+        public Button englishButton; 
+        
+        //row 6
+        public Button saveExitButton;
 
         // Temporary variables for settings changes
         private float _tempVolume;
         private int _tempLocale;
         private int _tempScheme;
         private int _colorBlindMode;
+
+            private GameObject previousSelectedObject;
+            
+            private Color originalDisabledColor = new(0.02f, 0.486f, 0.137f, 0.9f);
+            public Color highlightedDisabledColor = new(0.02f, 0.486f, 0.137f, 0.9f);
 
         void Start()
         {
@@ -40,6 +59,52 @@ namespace _Scripts
             UpdateLocaleButtons(_tempLocale);
             UpdateControlSchemeButtons(_tempScheme);
             UpdateColorBlindButtons(_colorBlindMode);
+            
+            EventSystem.current.SetSelectedGameObject(twoHandedButton.gameObject);
+        }
+
+        void Update()
+        {
+            // Get the currently selected UI object
+            GameObject currentSelectedObject = EventSystem.current.currentSelectedGameObject;
+
+            // Check if the selected object has changed
+            if (currentSelectedObject != previousSelectedObject)
+            {
+                // Revert the disabled color of the previous button, if it exists and is disabled
+                if (previousSelectedObject != null &&
+                    previousSelectedObject.TryGetComponent<Button>(out Button previousButton))
+                {
+                    if (!previousButton.interactable)
+                    {
+                        ColorBlock colors = previousButton.colors;
+                        colors.disabledColor = originalDisabledColor; // Reset to the original disabled color
+                        previousButton.colors = colors;
+                    }
+                }
+
+                // Update the color of the new selected button if it's disabled
+                if (currentSelectedObject != null &&
+                    currentSelectedObject.TryGetComponent<Button>(out Button currentButton))
+                {
+                    if (!currentButton.interactable)
+                    {
+                        // Store the original disabled color if not already stored
+                        originalDisabledColor = currentButton.colors.disabledColor;
+
+                        // Create a new ColorBlock for the current button
+                        ColorBlock colors = currentButton.colors;
+                        colors.disabledColor = highlightedDisabledColor; // Apply highlighted disabled color
+                        currentButton.colors = colors; // Assign the new color block
+
+                        // Make sure to set interactable to false to apply the disabled color properly
+                        currentButton.interactable = false; 
+                    }
+                }
+
+                // Update previousSelectedObject to the current one for the next frame
+                previousSelectedObject = currentSelectedObject;
+            }
         }
 
         public void ChangeControlScheme(int schemeNum)
