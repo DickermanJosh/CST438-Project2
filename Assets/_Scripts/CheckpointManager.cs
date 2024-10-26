@@ -33,4 +33,6 @@ public class CheckpointManager : MonoBehaviour
         Debug.Log("Retrieved checkpoint at: " + lastCheckpointPosition);
         return lastCheckpointPosition;
     }
+
+    public void ResetLastCheckpointPosition() => lastCheckpointPosition = Vector2.zero;
 }

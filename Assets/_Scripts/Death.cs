@@ -18,6 +18,10 @@ public class Death : MonoBehaviour
     {
         if (CheckpointManager.Instance != null)
         {
+            if (DangerMeter.Instance != null)
+                DangerMeter.Instance.SetCurrentAmount(DangerMeter.Instance.GetCurrentAmount() / 2f);
+            if (BuffManager.Instance != null)
+                BuffManager.Instance.RespawnAllCollectables();
             Vector3 respawnPosition = CheckpointManager.Instance.GetLastCheckpoint();
             if (respawnPosition != Vector3.zero)
             {
@@ -35,12 +39,16 @@ public class Death : MonoBehaviour
             else
             {
                 Debug.Log("No checkpoint set, reloading scene");
+                if (SpeedrunTimer.Instance != null)
+                    SpeedrunTimer.Instance.ResetTime();
                 SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             }
         }
         else
         {
             Debug.LogError("CheckpointManager instance is null!");
+            if (SpeedrunTimer.Instance != null)
+                SpeedrunTimer.Instance.ResetTime();
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }

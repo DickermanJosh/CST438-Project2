@@ -58,4 +58,14 @@ public class Checkpoint : MonoBehaviour
                 (greenFlagSprite == null ? "Green flag sprite is null." : ""));
         }
     }
+
+    public void DeactivateCheckpoint()
+    {
+        isActivated = false;
+
+        if (spriteRenderer != null && redFlagSprite != null)
+        {
+            spriteRenderer.sprite = redFlagSprite;
+        } 
+    }
 }

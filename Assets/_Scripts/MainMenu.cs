@@ -30,12 +30,7 @@ namespace _Scripts
         //Loads scene zero. Change depending on scene order.
         public void PlayGame()
         {
-            SceneManager.LoadSceneAsync(0);
-
-            if (SceneManager.LoadSceneAsync(0) == null)
-            {
-                Debug.Log("No Scene selected.");
-            }
+            SceneManager.LoadScene("Level copy");
         }
 
         public void QuitGame()

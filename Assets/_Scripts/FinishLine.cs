@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class FinishLine : MonoBehaviour
 {
@@ -8,7 +9,7 @@ public class FinishLine : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player"))
         {
             Debug.Log("Player crossed finish line!");
 
@@ -17,6 +18,17 @@ public class FinishLine : MonoBehaviour
                 SpeedrunManager.Instance.FinishRun();
                 StartCoroutine(ResetLevel(other.gameObject));
             }
+            
+            SpeedrunTimer.Instance.SaveTime();
+            BuffManager.Instance.RespawnAllCollectables();
+            CheckpointManager.Instance.ResetLastCheckpointPosition();
+            var checkpoints = FindObjectsOfType<Checkpoint>();
+            foreach (var point in checkpoints)
+            {
+                point.DeactivateCheckpoint();
+            }
+            
+            SceneManager.LoadScene("VictoryScreen"); 
         }
     }
 
@@ -28,6 +40,9 @@ public class FinishLine : MonoBehaviour
         // Reset timer
         SpeedrunTimer.timer.Reset();
         SpeedrunTimer.timer.Start();
+
+        
+        yield break;
 
         // Teleport player to spawn point
         if (spawnPoint != null)

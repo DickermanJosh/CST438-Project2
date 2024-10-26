@@ -62,6 +62,14 @@ namespace _Scripts
             pauseMenuUI.SetActive(false);
             Time.timeScale = 1f;
             IsPaused = false;
+            
+            BuffManager.Instance.RespawnAllCollectables();
+            CheckpointManager.Instance.ResetLastCheckpointPosition();
+            var checkpoints = FindObjectsOfType<Checkpoint>();
+            foreach (var point in checkpoints)
+            {
+                point.DeactivateCheckpoint();
+            }
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
 
@@ -77,7 +85,15 @@ namespace _Scripts
             IsPaused = false;
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
-            SceneManager.LoadScene("Settings_MainMenu");
+            
+            BuffManager.Instance.RespawnAllCollectables();
+            CheckpointManager.Instance.ResetLastCheckpointPosition();
+            var checkpoints = FindObjectsOfType<Checkpoint>();
+            foreach (var point in checkpoints)
+            {
+                point.DeactivateCheckpoint();
+            }
+            SceneManager.LoadScene("MainMenuSettingsLeaderboard");
         } 
     }
 }
