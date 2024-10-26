@@ -1,5 +1,5 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,18 +7,43 @@ public class FinishLine : MonoBehaviour
 {
     public Transform spawnPoint; // Reference to your spawn point
 
-    private void OnTriggerEnter2D(Collider2D other)
+    // private void OnTriggerEnter2D(Collider2D other)
+    // {
+    //     if (other.gameObject.CompareTag("Player"))
+    //     {
+    //         Debug.Log("Player crossed finish line!");
+    //
+    //         if (SpeedrunManager.Instance != null)
+    //         {
+    //             SpeedrunManager.Instance.FinishRun();
+    //             StartCoroutine(ResetLevel(other.gameObject));
+    //         }
+    //         
+    //         SpeedrunTimer.Instance.SaveTime();
+    //         BuffManager.Instance.RespawnAllCollectables();
+    //         CheckpointManager.Instance.ResetLastCheckpointPosition();
+    //         var checkpoints = FindObjectsOfType<Checkpoint>();
+    //         foreach (var point in checkpoints)
+    //         {
+    //             point.DeactivateCheckpoint();
+    //         }
+    //         
+    //         SceneManager.LoadScene("VictoryScreen"); 
+    //     }
+    // }
+
+    private void OnTriggerEnter2D(Collider2D col)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (col.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             Debug.Log("Player crossed finish line!");
 
             if (SpeedrunManager.Instance != null)
             {
                 SpeedrunManager.Instance.FinishRun();
-                StartCoroutine(ResetLevel(other.gameObject));
+                StartCoroutine(ResetLevel(col.gameObject));
             }
-            
+
             SpeedrunTimer.Instance.SaveTime();
             BuffManager.Instance.RespawnAllCollectables();
             CheckpointManager.Instance.ResetLastCheckpointPosition();
@@ -27,8 +52,8 @@ public class FinishLine : MonoBehaviour
             {
                 point.DeactivateCheckpoint();
             }
-            
-            SceneManager.LoadScene("VictoryScreen"); 
+
+            SceneManager.LoadScene("VictoryScreen");
         }
     }
 

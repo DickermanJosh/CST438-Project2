@@ -1,5 +1,4 @@
 using System;
-using System.Security.Cryptography;
 using UnityEngine;
 
 namespace _Scripts
@@ -125,8 +124,11 @@ namespace _Scripts
         private void Update()
         {
             _time += Time.deltaTime;
-            currentMaxSpeed = maxSpeed + DangerMeter.Instance.GetCurrentAmount();
-            HandleFootstepSound();
+            if (DangerMeter.Instance != null)
+            {
+                currentMaxSpeed = maxSpeed + DangerMeter.Instance.GetCurrentAmount();
+                HandleFootstepSound(); 
+            }
 
             if (!_wasGroundedLastFrame && _grounded)
             {
