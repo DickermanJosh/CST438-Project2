@@ -132,6 +132,14 @@ MonoBehaviour:
     m_Localized: Reanudar
     m_Metadata:
       m_Items: []
+  - m_Id: 9378252177399808
+    m_Localized: Victoria!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9378657359749120
+    m_Localized: Tiempo
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
