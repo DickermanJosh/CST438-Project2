@@ -1135,7 +1135,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 350}
-  m_SizeDelta: {x: 1305.6344, y: 389.4812}
+  m_SizeDelta: {x: 1432.04, y: 389.4812}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1370625528
 MonoBehaviour:
@@ -1157,7 +1157,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Victory!
+  m_text: Victoria!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a03e0100cbc07de49af188667c7f3816, type: 2}
   m_sharedMaterial: {fileID: 6728930322452976824, guid: a03e0100cbc07de49af188667c7f3816, type: 2}
