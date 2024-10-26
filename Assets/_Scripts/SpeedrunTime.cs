@@ -76,6 +76,16 @@ public class SpeedrunTimer : MonoBehaviour {
         timer.Start();
     }
 
+    public void StartTime()
+    {
+        timer.Start();
+    }
+
+    public void StopTime()
+    {
+        timer.Stop();
+    }
+
     public void SaveTime()
     {
         UnityEngine.Debug.Log("Initializing reset operation");
