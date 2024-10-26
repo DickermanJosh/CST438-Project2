@@ -20,6 +20,14 @@ public class FinishLine : MonoBehaviour
             }
             
             SpeedrunTimer.Instance.SaveTime();
+            BuffManager.Instance.RespawnAllCollectables();
+            CheckpointManager.Instance.ResetLastCheckpointPosition();
+            var checkpoints = FindObjectsOfType<Checkpoint>();
+            foreach (var point in checkpoints)
+            {
+                point.DeactivateCheckpoint();
+            }
+            
             SceneManager.LoadScene("VictoryScreen"); 
         }
     }
