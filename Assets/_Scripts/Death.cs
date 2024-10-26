@@ -18,7 +18,10 @@ public class Death : MonoBehaviour
     {
         if (CheckpointManager.Instance != null)
         {
-            BuffManager.Instance.RespawnAllCollectables();
+            if (DangerMeter.Instance != null)
+                DangerMeter.Instance.SetCurrentAmount(DangerMeter.Instance.GetCurrentAmount() / 2f);
+            if (BuffManager.Instance != null)
+                BuffManager.Instance.RespawnAllCollectables();
             Vector3 respawnPosition = CheckpointManager.Instance.GetLastCheckpoint();
             if (respawnPosition != Vector3.zero)
             {

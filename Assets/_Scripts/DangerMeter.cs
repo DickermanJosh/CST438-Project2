@@ -12,6 +12,12 @@ public class DangerMeter : MonoBehaviour
 
     public GameObject DoubleJumpText;
     public float GetCurrentAmount() => currentAmount;
+    public void SetCurrentAmount(float amount)
+    {
+        currentAmount = amount;
+        UpdateDangerBar();
+    }
+
     public float GetCurrentMeterPercentage() => currentAmount / maxAmount;
 
     #region Singleton
@@ -53,7 +59,8 @@ public class DangerMeter : MonoBehaviour
         // Meter completely full, reload the level
         if (currentAmount >= maxAmount)
         {
-            // TODO: Implement fade to black transition
+            if (BuffManager.Instance != null)
+                BuffManager.Instance.RespawnAllCollectables();
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             return;
         }
