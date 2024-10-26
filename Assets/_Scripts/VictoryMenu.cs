@@ -51,10 +51,14 @@ public class VictoryMenu : MonoBehaviour
     }
 
     public void onClickRestart() {
+        if (SpeedrunTimer.Instance != null)
+            SpeedrunTimer.Instance.ResetTime();
         SceneManager.LoadScene("Level copy");
     }
 
     public void onClickMenu() {
+        if (SpeedrunTimer.Instance != null)
+            SpeedrunTimer.Instance.ResetTime();
         SceneManager.LoadScene("MainMenuSettingsLeaderboard");
     }
 

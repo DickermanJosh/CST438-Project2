@@ -18,6 +18,8 @@ public class FinishLine : MonoBehaviour
                 SpeedrunManager.Instance.FinishRun();
                 StartCoroutine(ResetLevel(other.gameObject));
             }
+            
+            SpeedrunTimer.Instance.SaveTime();
             SceneManager.LoadScene("VictoryScreen"); 
         }
     }

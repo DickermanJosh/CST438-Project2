@@ -39,12 +39,16 @@ public class Death : MonoBehaviour
             else
             {
                 Debug.Log("No checkpoint set, reloading scene");
+                if (SpeedrunTimer.Instance != null)
+                    SpeedrunTimer.Instance.ResetTime();
                 SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             }
         }
         else
         {
             Debug.LogError("CheckpointManager instance is null!");
+            if (SpeedrunTimer.Instance != null)
+                SpeedrunTimer.Instance.ResetTime();
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
