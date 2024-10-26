@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using UnityEditor.Tilemaps;
 using UnityEngine;
 
 namespace _Scripts.Collectables
