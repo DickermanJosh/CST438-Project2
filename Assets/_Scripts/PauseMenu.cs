@@ -93,7 +93,7 @@ namespace _Scripts
             {
                 point.DeactivateCheckpoint();
             }
-            SceneManager.LoadScene("Settings_MainMenu");
+            SceneManager.LoadScene("MainMenuSettingsLeaderboard");
         } 
     }
 }
