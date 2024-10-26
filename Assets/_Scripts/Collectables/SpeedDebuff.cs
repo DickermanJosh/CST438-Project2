@@ -19,7 +19,8 @@ namespace _Scripts.Collectables
             if (col.gameObject.layer != LayerMask.NameToLayer("Player")) return;
             DangerMeter.Instance.Increment(meterIncrement);
             DangerMeter.Instance.ApplyDebuff(debuffTime, speedDecrease, meterIncrement);
-            Destroy(gameObject);
+            // Destroy(gameObject);
+            gameObject.SetActive(false);
         }
 
 

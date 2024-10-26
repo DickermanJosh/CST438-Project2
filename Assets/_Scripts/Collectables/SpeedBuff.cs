@@ -23,6 +23,7 @@ public class SpeedBuff : MonoBehaviour
         if (col.gameObject.layer != LayerMask.NameToLayer("Player")) return;
         DangerMeter.Instance.Increment(meterIncrement);
         // ApplyBuff();
-        Destroy(gameObject);
+        // Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 }
