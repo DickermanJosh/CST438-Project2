@@ -26,22 +26,26 @@ public class VictoryMenu : MonoBehaviour
         
         String [] times;
         string fullList = sr.ReadToEnd();
+        UnityEngine.Debug.Log("Times taken from save file: " + fullList);
         sr.Dispose();
         times = fullList.Split(',');
 
-        if(times.Length > 2) {
+        if(times.Length >= 2) {
             String finalTime = times[times.Length-2];
 
             int finalTimeInt = Int32.Parse(finalTime);
 
             TimeSpan ts = TimeSpan.FromMilliseconds(finalTimeInt);
             string formattedFinalTime = string.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
+            UnityEngine.Debug.Log("Time to display: " + formattedFinalTime);
             TimeDisplay.text = formattedFinalTime;
         }
         else {
+            UnityEngine.Debug.Log("Error, didn't get any times");
             TimeDisplay.text = "Error";
         }
 
+        encryptSave();
     }
 
     // Update is called once per frame
@@ -63,12 +67,14 @@ public class VictoryMenu : MonoBehaviour
     }
 
     public void decryptSave() {
+        UnityEngine.Debug.Log("Decrypting Save");
         StreamReader sr = new StreamReader("saveFile.txt");
         StreamWriter sw = new StreamWriter("saveCopy.txt");
 
         while(!sr.EndOfStream) {
             char current = (char) sr.Read();
             current = (char) (current - 10);
+            UnityEngine.Debug.Log(current);
             sw.Write(current);
         }
 
