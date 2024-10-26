@@ -976,7 +976,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 0.7821782
+  orthographic size: 1.2920792
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1415,11 +1415,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f17d9b61bb9d62441988463507e6f3c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  englishButton: {fileID: 331669679}
-  spanishButton: {fileID: 613784061}
   twoHandedButton: {fileID: 1843343785}
   leftHandedButton: {fileID: 1920945973}
   rightHandedButton: {fileID: 1779264373}
+  masterAudioSlider: {fileID: 1907377535}
+  ColorBlindEnableButton: {fileID: 0}
   colorBlindButtons:
   - {fileID: 2130721019}
   - {fileID: 0}
@@ -1430,7 +1430,10 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  masterAudioSlider: {fileID: 1907377535}
+  spanishButton: {fileID: 613784061}
+  englishButton: {fileID: 331669679}
+  saveExitButton: {fileID: 0}
+  highlightedDisabledColor: {r: 0.02, g: 0.486, b: 0.137, a: 0.9}
 --- !u!114 &135205093
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33910,11 +33913,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1884589640893608762, guid: 7d741d99e0d7e4730b3ba45ea0e7cccc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 228.18
+      value: -4.2
       objectReference: {fileID: 0}
     - target: {fileID: 1884589640893608762, guid: 7d741d99e0d7e4730b3ba45ea0e7cccc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 18.7
+      value: -2.72
       objectReference: {fileID: 0}
     - target: {fileID: 1884589640893608762, guid: 7d741d99e0d7e4730b3ba45ea0e7cccc, type: 3}
       propertyPath: m_LocalPosition.z
