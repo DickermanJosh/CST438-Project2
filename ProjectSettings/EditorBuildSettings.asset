@@ -5,15 +5,18 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
-    path: Assets/Scenes/Settings_MainMenu.unity
-    guid: 993f607d41340e44684240e01a74d218
   - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
   - enabled: 1
+    path: Assets/Scenes/MainMenuSettingsLeaderboard.unity
+    guid: dd94646d5625bab48ab5bdf9e40d6ead
+  - enabled: 1
     path: Assets/Scenes/Level copy.unity
     guid: 8da7dfba4f9d14b39a85b5ee8a696631
+  - enabled: 1
+    path: Assets/Scenes/VictoryScreen.unity
+    guid: 03bca8e59e83a214780b7ee2382988b6
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: b6ede406d2e771542a3862ffa6be74b2, type: 2}
     com.unity.localization.settings: {fileID: 11400000, guid: ed87f3e9b58869c4da08da9b5789a90d, type: 2}

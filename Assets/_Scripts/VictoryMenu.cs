@@ -51,11 +51,11 @@ public class VictoryMenu : MonoBehaviour
     }
 
     public void onClickRestart() {
-        SceneManager.LoadScene("SceneTransitionTest");
+        SceneManager.LoadScene("Level copy");
     }
 
     public void onClickMenu() {
-        SceneManager.LoadScene("Leaderboard+MainMenu");
+        SceneManager.LoadScene("MainMenuSettingsLeaderboard");
     }
 
     public void decryptSave() {
