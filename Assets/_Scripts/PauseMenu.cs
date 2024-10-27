@@ -99,6 +99,8 @@ namespace _Scripts
             {
                 point.DeactivateCheckpoint();
             }
+            
+            SpeedrunTimer.Instance.StopTime();
             SceneManager.LoadScene("MainMenuSettingsLeaderboard");
         } 
     }

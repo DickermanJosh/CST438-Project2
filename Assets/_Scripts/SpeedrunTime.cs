@@ -73,6 +73,12 @@ public class SpeedrunTimer : MonoBehaviour {
         TimeText.text = elapsedTime;
     }
 
+    public void ResetTimeWithoutRestart()
+    {
+        timer.Reset();
+        timer.Stop();
+    }
+
     public void ResetTime()
     {
         timer.Reset();
