@@ -75,6 +75,7 @@ namespace _Scripts
             {
                 point.DeactivateCheckpoint();
             }
+            SpeedrunTimer.Instance.ResetTime();
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
 
