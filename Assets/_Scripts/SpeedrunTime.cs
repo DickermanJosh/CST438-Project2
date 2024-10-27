@@ -144,8 +144,8 @@ public class SpeedrunTimer : MonoBehaviour {
             return;
         }
 
-        using (StreamReader sr = new StreamReader(saveFilePath))
-        using (StreamWriter sw = new StreamWriter(saveCopyPath, false))
+        using (StreamReader sr = new StreamReader(saveFilePath, true))
+        using (StreamWriter sw = new StreamWriter(saveCopyPath, true))
         {
             while (!sr.EndOfStream)
             {
@@ -169,8 +169,8 @@ public class SpeedrunTimer : MonoBehaviour {
             return;
         }
 
-        using (StreamReader sr = new StreamReader(saveCopyPath))
-        using (StreamWriter sw = new StreamWriter(saveFilePath, false))
+        using (StreamReader sr = new StreamReader(saveCopyPath, true))
+        using (StreamWriter sw = new StreamWriter(saveFilePath, true))
         {
             while (!sr.EndOfStream)
             {
