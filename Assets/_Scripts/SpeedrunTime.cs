@@ -21,7 +21,9 @@ public class SpeedrunTimer : MonoBehaviour {
 
     // Creates the speedrun timer
     public static Stopwatch timer = new Stopwatch();
-
+    static string saveFileName = "saveFile.txt";
+    string saveFilePath = Path.Combine(Application.persistentDataPath, saveFileName); 
+    
     public static SpeedrunTimer Instance;
     private void Awake()
     {
@@ -88,57 +90,76 @@ public class SpeedrunTimer : MonoBehaviour {
 
     public void SaveTime()
     {
-        UnityEngine.Debug.Log("Initializing reset operation");
+        Debug.Log("Initializing save operation");
         decryptSave();
 
         TimeText.text = elapsedTime;
 
-        StreamWriter sw = new StreamWriter("saveCopy.txt", true);
+        string saveCopyPath = Path.Combine(Application.persistentDataPath, "saveCopy.txt");
 
-        timer.Stop();
-        timer.Reset();
+        using (StreamWriter sw = new StreamWriter(saveCopyPath, true))
+        {
+            timer.Stop();
+            timer.Reset();
 
-        int saveTime = (int) ts.TotalMilliseconds;
-            
-        UnityEngine.Debug.Log("Writing " + saveTime + " to save file");
-        sw.Write(saveTime + ",");
-        sw.Dispose();
+            int saveTime = (int)ts.TotalMilliseconds;
+
+            Debug.Log("Writing " + saveTime + " to save file");
+            sw.Write(saveTime + ",");
+        }
 
         encryptSave();
 
         TimeText.text = "00:00:00.00";
-        // SceneManager.LoadScene(SceneManager.GetActiveScene().name); 
     }
 
-    public void decryptSave() {
-        StreamReader sr = new StreamReader("saveFile.txt", true);
-        StreamWriter sw = new StreamWriter("saveCopy.txt", true);
+    public void decryptSave()
+    {
+        string saveFilePath = Path.Combine(Application.persistentDataPath, "saveFile.txt");
+        string saveCopyPath = Path.Combine(Application.persistentDataPath, "saveCopy.txt");
 
-        while(!sr.EndOfStream) {
-            char current = (char) sr.Read();
-            current = (char) (current - 10);
-            sw.Write(current);
+        if (!File.Exists(saveFilePath))
+        {
+            Debug.LogWarning("Save file not found during decryption.");
+            return;
         }
 
-        sr.Dispose();
-        sw.Dispose();
+        using (StreamReader sr = new StreamReader(saveFilePath))
+        using (StreamWriter sw = new StreamWriter(saveCopyPath, false))
+        {
+            while (!sr.EndOfStream)
+            {
+                char current = (char)sr.Read();
+                current = (char)(current - 10);
+                sw.Write(current);
+            }
+        }
 
-        File.WriteAllText("saveFile.txt", string.Empty);
+        File.WriteAllText(saveFilePath, string.Empty);
     }
 
-    public void encryptSave() {
-        StreamReader sr = new StreamReader("saveCopy.txt", true);
-        StreamWriter sw = new StreamWriter("saveFile.txt", true);
+    public void encryptSave()
+    {
+        string saveFilePath = Path.Combine(Application.persistentDataPath, "saveFile.txt");
+        string saveCopyPath = Path.Combine(Application.persistentDataPath, "saveCopy.txt");
 
-        while(!sr.EndOfStream) {
-            char current = (char) sr.Read();
-            current = (char) (current + 10);
-            sw.Write(current);
+        if (!File.Exists(saveCopyPath))
+        {
+            Debug.LogWarning("Save copy file not found during encryption.");
+            return;
         }
 
-        sr.Dispose();
-        sw.Dispose();
+        using (StreamReader sr = new StreamReader(saveCopyPath))
+        using (StreamWriter sw = new StreamWriter(saveFilePath, false))
+        {
+            while (!sr.EndOfStream)
+            {
+                char current = (char)sr.Read();
+                current = (char)(current + 10);
+                sw.Write(current);
+            }
+        }
 
-        File.WriteAllText("saveCopy.txt", string.Empty);
+        File.WriteAllText(saveCopyPath, string.Empty);
     }
 }

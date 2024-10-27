@@ -1016,7 +1016,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1790021264}
         m_TargetAssemblyTypeName: VictoryMenu, Assembly-CSharp
-        m_MethodName: onClickMenu
+        m_MethodName: OnClickMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2139,7 +2139,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1790021264}
         m_TargetAssemblyTypeName: VictoryMenu, Assembly-CSharp
-        m_MethodName: onClickRestart
+        m_MethodName: OnClickRestart
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
