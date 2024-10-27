@@ -1,14 +1,10 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using _Scripts;
-using UnityEngine.UI;
 using UnityEngine;
 using System.Diagnostics;
 using System.IO;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 using TMPro;
+using Debug = UnityEngine.Debug;
 
 public class VictoryMenu : MonoBehaviour
 {
@@ -18,85 +14,133 @@ public class VictoryMenu : MonoBehaviour
     public TMP_Text TimeDisplay;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        decryptSave();
+        try
+        {
+            DecryptSave();
 
-        StreamReader sr = new StreamReader("saveCopy.txt");
-        
-        String [] times;
-        string fullList = sr.ReadToEnd();
-        UnityEngine.Debug.Log("Times taken from save file: " + fullList);
-        sr.Dispose();
-        times = fullList.Split(',');
+            string saveCopyPath = Path.Combine(Application.persistentDataPath, "saveCopy.txt");
 
-        if(times.Length >= 2) {
-            String finalTime = times[times.Length-2];
+            if (File.Exists(saveCopyPath))
+            {
+                string fullList = File.ReadAllText(saveCopyPath);
+                Debug.Log("Times taken from save file: " + fullList);
 
-            int finalTimeInt = Int32.Parse(finalTime);
+                string[] times = fullList.Split(',');
 
-            TimeSpan ts = TimeSpan.FromMilliseconds(finalTimeInt);
-            string formattedFinalTime = string.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
-            UnityEngine.Debug.Log("Time to display: " + formattedFinalTime);
-            TimeDisplay.text = formattedFinalTime;
+                if (times.Length >= 2)
+                {
+                    string finalTime = times[times.Length - 2];
+
+                    if (int.TryParse(finalTime, out int finalTimeInt))
+                    {
+                        TimeSpan ts = TimeSpan.FromMilliseconds(finalTimeInt);
+                        string formattedFinalTime = string.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+                            ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
+                        Debug.Log("Time to display: " + formattedFinalTime);
+                        TimeDisplay.text = formattedFinalTime;
+                    }
+                    else
+                    {
+                        Debug.LogWarning("Failed to parse final time.");
+                        TimeDisplay.text = "Error";
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning("No times found in save file.");
+                    TimeDisplay.text = "No Times Available";
+                }
+            }
+            else
+            {
+                Debug.LogWarning("Save copy file not found.");
+                TimeDisplay.text = "No Times Available";
+            }
+
+            EncryptSave();
         }
-        else {
-            UnityEngine.Debug.Log("Error, didn't get any times");
+        catch (Exception ex)
+        {
+            Debug.LogError("Error in VictoryMenu Start: " + ex.Message);
             TimeDisplay.text = "Error";
         }
-
-        encryptSave();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnClickRestart()
     {
-        //none
-    }
-
-    public void onClickRestart() {
-        if (SpeedrunTimer.Instance != null)
-            SpeedrunTimer.Instance.ResetTime();
+        SpeedrunTimer.Instance?.ResetTime();
         SceneManager.LoadScene("Level copy");
     }
 
-    public void onClickMenu() {
-        if (SpeedrunTimer.Instance != null)
-            SpeedrunTimer.Instance.ResetTime();
+    public void OnClickMenu()
+    {
+        SpeedrunTimer.Instance?.ResetTime();
         SceneManager.LoadScene("MainMenuSettingsLeaderboard");
     }
 
-    public void decryptSave() {
-        UnityEngine.Debug.Log("Decrypting Save");
-        StreamReader sr = new StreamReader("saveFile.txt");
-        StreamWriter sw = new StreamWriter("saveCopy.txt");
+    private void DecryptSave()
+    {
+        string saveFilePath = Path.Combine(Application.persistentDataPath, "saveFile.txt");
+        string saveCopyPath = Path.Combine(Application.persistentDataPath, "saveCopy.txt");
 
-        while(!sr.EndOfStream) {
-            char current = (char) sr.Read();
-            current = (char) (current - 10);
-            UnityEngine.Debug.Log(current);
-            sw.Write(current);
+        if (!File.Exists(saveFilePath))
+        {
+            Debug.LogWarning("Save file not found during decryption.");
+            return;
         }
 
-        sr.Dispose();
-        sw.Dispose();
+        try
+        {
+            using (StreamReader sr = new StreamReader(saveFilePath))
+            using (StreamWriter sw = new StreamWriter(saveCopyPath, false))
+            {
+                while (!sr.EndOfStream)
+                {
+                    char current = (char)sr.Read();
+                    current = (char)(current - 10);
+                    sw.Write(current);
+                }
+            }
 
-        File.WriteAllText("saveFile.txt", string.Empty);
+            File.WriteAllText(saveFilePath, string.Empty);
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError("Error during DecryptSave: " + ex.Message);
+        }
     }
 
-    public void encryptSave() {
-        StreamReader sr = new StreamReader("saveCopy.txt", true);
-        StreamWriter sw = new StreamWriter("saveFile.txt", true);
+    private void EncryptSave()
+    {
+        string saveFilePath = Path.Combine(Application.persistentDataPath, "saveFile.txt");
+        string saveCopyPath = Path.Combine(Application.persistentDataPath, "saveCopy.txt");
 
-        while(!sr.EndOfStream) {
-            char current = (char) sr.Read();
-            current = (char) (current + 10);
-            sw.Write(current);
+        if (!File.Exists(saveCopyPath))
+        {
+            Debug.LogWarning("Save copy file not found during encryption.");
+            return;
         }
 
-        sr.Dispose();
-        sw.Dispose();
+        try
+        {
+            using (StreamReader sr = new StreamReader(saveCopyPath))
+            using (StreamWriter sw = new StreamWriter(saveFilePath, false))
+            {
+                while (!sr.EndOfStream)
+                {
+                    char current = (char)sr.Read();
+                    current = (char)(current + 10);
+                    sw.Write(current);
+                }
+            }
 
-        File.WriteAllText("saveCopy.txt", string.Empty);
+            File.WriteAllText(saveCopyPath, string.Empty);
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError("Error during EncryptSave: " + ex.Message);
+        }
     }
 }

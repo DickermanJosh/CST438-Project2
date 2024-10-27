@@ -41,10 +41,11 @@ public class FinishLine : MonoBehaviour
             if (SpeedrunManager.Instance != null)
             {
                 SpeedrunManager.Instance.FinishRun();
-                StartCoroutine(ResetLevel(col.gameObject));
+                SpeedrunTimer.timer.Reset();
+                SpeedrunTimer.timer.Start();
+                SpeedrunTimer.Instance.SaveTime();
             }
 
-            SpeedrunTimer.Instance.SaveTime();
             BuffManager.Instance.RespawnAllCollectables();
             CheckpointManager.Instance.ResetLastCheckpointPosition();
             var checkpoints = FindObjectsOfType<Checkpoint>();

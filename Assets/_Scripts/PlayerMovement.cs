@@ -119,6 +119,8 @@ namespace _Scripts
                     transform.position = startPosition;
                 }
             }
+            
+            GameManager.Instance.ApplyVolume(GameManager.Instance.volume);
         }
 
         private void Update()

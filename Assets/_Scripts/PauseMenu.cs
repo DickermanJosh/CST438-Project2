@@ -7,6 +7,7 @@ namespace _Scripts
     {
         public static bool IsPaused;
         public GameObject pauseMenuUI;
+        public GameObject timer;
         // public GameObject settingsMenuUI;
 
         private void Start()
@@ -39,6 +40,8 @@ namespace _Scripts
         private void Pause()
         {
             pauseMenuUI.SetActive(true);
+            SpeedrunTimer.Instance.StopTime();
+            timer.SetActive(false);
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
             Time.timeScale = 0f;
@@ -48,6 +51,8 @@ namespace _Scripts
         public void Resume()
         {
             pauseMenuUI.SetActive(false);
+            SpeedrunTimer.Instance.StartTime();
+            timer.SetActive(true);
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
             Time.timeScale = 1f;
@@ -70,6 +75,7 @@ namespace _Scripts
             {
                 point.DeactivateCheckpoint();
             }
+            SpeedrunTimer.Instance.ResetTime();
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
 

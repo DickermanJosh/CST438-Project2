@@ -17,157 +17,147 @@ public class LeaderboardDisplayScript : MonoBehaviour
     public TMP_Text fifthTime;
 
     void Start() {
-        calculateAssignPlacements();
+        CalculateAssignPlacements();
     }
 
-    void Update() {
-        //nothing
-    }
+ private void CalculateAssignPlacements()
+    {
+        try
+        {
+            DecryptSave();
 
-    public void decryptSave() {
-        StreamReader sr = new StreamReader("saveFile.txt");
-        StreamWriter sw = new StreamWriter("saveCopy.txt");
+            string saveCopyPath = Path.Combine(Application.persistentDataPath, "saveCopy.txt");
 
-        while(!sr.EndOfStream) {
-            char current = (char) sr.Read();
-            current = (char) (current - 10);
-            sw.Write(current);
-        }
+            FileInfo fileInfo = new FileInfo(saveCopyPath);
 
-        sr.Dispose();
-        sw.Dispose();
-
-        File.WriteAllText("saveFile.txt", string.Empty);
-    }
-
-    public void encryptSave() {
-        StreamReader sr = new StreamReader("saveCopy.txt", true);
-        StreamWriter sw = new StreamWriter("saveFile.txt", true);
-
-        while(!sr.EndOfStream) {
-            char current = (char) sr.Read();
-            current = (char) (current + 10);
-            sw.Write(current);
-        }
-
-        sr.Dispose();
-        sw.Dispose();
-
-        File.WriteAllText("saveCopy.txt", string.Empty);
-    }
-
-    public void calculateAssignPlacements() {
-        decryptSave();
-        StreamReader sr = new StreamReader("saveCopy.txt");
-        
-        String [] times;
-
-        string fullList = sr.ReadToEnd();
-        sr.Dispose();
-        times = fullList.Split(',');
-
-        for(int i = 0; i < times.Length; i++) {
-            UnityEngine.Debug.Log("Array value: " + times[i]);
-        }
-
-        int [] timesIntArray = new int[times.Length-1];
-        for(int i = 0; i < times.Length-1; i++) {
-            UnityEngine.Debug.Log("Converting " + times[i] + " into an int");
-            timesIntArray [i] = Int32.Parse(times[i]);
-        }
-
-        QuickSort(timesIntArray, 0, timesIntArray.Length-1);
-
-
-        //Sets the first time
-        if(timesIntArray.Length >= 1) {
-            int time1 = timesIntArray[0];
-            TimeSpan ts1 = TimeSpan.FromMilliseconds(time1);
-            string formattedTime1 = string.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts1.Hours, ts1.Minutes, ts1.Seconds, ts1.Milliseconds / 10);
-            firstTime.text = formattedTime1;
-        }
-        else {
-            firstTime.text = "XX:XX:XX.XX";
-        }
-
-        //Sets the second time
-        if(timesIntArray.Length >= 2) {
-            int time2 = timesIntArray[1];
-            TimeSpan ts2 = TimeSpan.FromMilliseconds(time2);
-            string formattedTime2 = string.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts2.Hours, ts2.Minutes, ts2.Seconds, ts2.Milliseconds / 10);
-            secondTime.text = formattedTime2;
-        }
-        else {
-            secondTime.text = "XX:XX:XX.XX";
-        }
-
-        //Sets the third time
-        if(timesIntArray.Length >= 3) {
-            int time3 = timesIntArray[2];
-            TimeSpan ts3 = TimeSpan.FromMilliseconds(time3);
-            string formattedTime3 = string.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts3.Hours, ts3.Minutes, ts3.Seconds, ts3.Milliseconds / 10);
-            thirdTime.text = formattedTime3;
-        }
-        else {
-            thirdTime.text = "XX:XX:XX.XX";
-        }
-
-
-        //Sets the fourth time
-        if(timesIntArray.Length >= 4) {
-            int time4 = timesIntArray[3];
-            TimeSpan ts4 = TimeSpan.FromMilliseconds(time4);
-            string formattedTime4 = string.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts4.Hours, ts4.Minutes, ts4.Seconds, ts4.Milliseconds / 10);
-            fourthTime.text = formattedTime4;
-        }
-        else {
-            fourthTime.text = "XX:XX:XX.XX";
-        }
-
-
-        //Sets the fifth time
-        if(timesIntArray.Length >= 5) {
-            int time5 = timesIntArray[4];
-            TimeSpan ts5 = TimeSpan.FromMilliseconds(time5);
-            string formattedTime5 = string.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts5.Hours, ts5.Minutes, ts5.Seconds, ts5.Milliseconds / 10);
-            fifthTime.text = formattedTime5;
-        }
-        else {
-            fifthTime.text = "XX:XX:XX.XX";
-        }
-
-        encryptSave();
-    }
-
-    static int Partition(int[] arr, int low, int high) {
-        
-        int pivot = arr[high];
-        int i = low - 1;
-
-        for (int j = low; j <= high - 1; j++) {
-            if (arr[j] < pivot) {
-                i++;
-                Swap(arr, i, j);
+            if (!File.Exists(saveCopyPath) || fileInfo.Length == 0)
+            {
+                Debug.LogWarning("Save copy file not found or is empty.");
+                SetDefaultTimes();
+                return;
             }
+
+            string fullList = File.ReadAllText(saveCopyPath);
+
+            string[] times = fullList.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+            int[] timesIntArray = new int[times.Length];
+            for (int i = 0; i < times.Length; i++)
+            {
+                if (int.TryParse(times[i], out int parsedTime))
+                {
+                    timesIntArray[i] = parsedTime;
+                }
+                else
+                {
+                    Debug.LogWarning($"Failed to parse time at index {i}: {times[i]}");
+                    timesIntArray[i] = int.MaxValue; // Assign a large number to push it to the end
+                }
+            }
+
+            Array.Sort(timesIntArray);
+
+            // Assign times to UI elements
+            AssignTimeToText(firstTime, timesIntArray, 0);
+            AssignTimeToText(secondTime, timesIntArray, 1);
+            AssignTimeToText(thirdTime, timesIntArray, 2);
+            AssignTimeToText(fourthTime, timesIntArray, 3);
+            AssignTimeToText(fifthTime, timesIntArray, 4);
+
+            EncryptSave();
         }
-        
-        Swap(arr, i + 1, high);  
-        return i + 1;
+        catch (Exception ex)
+        {
+            Debug.LogError("Error in CalculateAssignPlacements: " + ex.Message);
+            SetDefaultTimes();
+        }
     }
 
-    static void Swap(int[] arr, int i, int j) {
-        int temp = arr[i];
-        arr[i] = arr[j];
-        arr[j] = temp;
+    private void AssignTimeToText(TMP_Text textElement, int[] timesArray, int index)
+    {
+        if (index < timesArray.Length && timesArray[index] != int.MaxValue)
+        {
+            TimeSpan ts = TimeSpan.FromMilliseconds(timesArray[index]);
+            string formattedTime = string.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+                ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
+            textElement.text = formattedTime;
+        }
+        else
+        {
+            textElement.text = "XX:XX:XX.XX";
+        }
     }
 
-    static void QuickSort(int[] arr, int low, int high) {
-        if (low < high) {
-            
-            int pi = Partition(arr, low, high);
+    private void SetDefaultTimes()
+    {
+        firstTime.text = "XX:XX:XX.XX";
+        secondTime.text = "XX:XX:XX.XX";
+        thirdTime.text = "XX:XX:XX.XX";
+        fourthTime.text = "XX:XX:XX.XX";
+        fifthTime.text = "XX:XX:XX.XX";
+    }
 
-            QuickSort(arr, low, pi - 1);
-            QuickSort(arr, pi + 1, high);
+    private void DecryptSave()
+    {
+        string saveFilePath = Path.Combine(Application.persistentDataPath, "saveFile.txt");
+        string saveCopyPath = Path.Combine(Application.persistentDataPath, "saveCopy.txt");
+
+        if (!File.Exists(saveFilePath))
+        {
+            Debug.LogWarning("Save file not found during decryption.");
+            return;
+        }
+
+        try
+        {
+            using (StreamReader sr = new StreamReader(saveFilePath))
+            using (StreamWriter sw = new StreamWriter(saveCopyPath, false))
+            {
+                while (!sr.EndOfStream)
+                {
+                    char current = (char)sr.Read();
+                    current = (char)(current - 10);
+                    sw.Write(current);
+                }
+            }
+
+            File.WriteAllText(saveFilePath, string.Empty);
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError("Error during DecryptSave: " + ex.Message);
+        }
+    }
+
+    private void EncryptSave()
+    {
+        string saveFilePath = Path.Combine(Application.persistentDataPath, "saveFile.txt");
+        string saveCopyPath = Path.Combine(Application.persistentDataPath, "saveCopy.txt");
+
+        if (!File.Exists(saveCopyPath))
+        {
+            Debug.LogWarning("Save copy file not found during encryption.");
+            return;
+        }
+
+        try
+        {
+            using (StreamReader sr = new StreamReader(saveCopyPath))
+            using (StreamWriter sw = new StreamWriter(saveFilePath, false))
+            {
+                while (!sr.EndOfStream)
+                {
+                    char current = (char)sr.Read();
+                    current = (char)(current + 10);
+                    sw.Write(current);
+                }
+            }
+
+            File.WriteAllText(saveCopyPath, string.Empty);
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError("Error during EncryptSave: " + ex.Message);
         }
     }
 }
