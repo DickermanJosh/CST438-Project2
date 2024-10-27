@@ -14,10 +14,10 @@ public class Finish : MonoBehaviour
             if (SpeedrunManager.Instance != null)
             {
                 SpeedrunManager.Instance.FinishRun();
+            }
                 SpeedrunTimer.timer.Reset();
                 SpeedrunTimer.timer.Start();
                 SpeedrunTimer.Instance.SaveTime();
-            }
 
             BuffManager.Instance.RespawnAllCollectables();
             CheckpointManager.Instance.ResetLastCheckpointPosition();

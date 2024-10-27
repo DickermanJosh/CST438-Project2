@@ -107,7 +107,7 @@ public class SpeedrunTimer : MonoBehaviour {
         encryptSave();
 
         TimeText.text = "00:00:00.00";
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name); 
+        // SceneManager.LoadScene(SceneManager.GetActiveScene().name); 
     }
 
     public void decryptSave() {
