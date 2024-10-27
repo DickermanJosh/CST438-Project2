@@ -22,7 +22,7 @@ public class SpeedrunTimer : MonoBehaviour {
     // Creates the speedrun timer
     public static Stopwatch timer = new Stopwatch();
     static string saveFileName = "saveFile.txt";
-    string saveFilePath = Path.Combine(Application.persistentDataPath, saveFileName); 
+    private string saveFilePath;
     
     public static SpeedrunTimer Instance;
     private void Awake()
@@ -37,6 +37,7 @@ public class SpeedrunTimer : MonoBehaviour {
         {
             Destroy(gameObject); // Only ONE!
         }
+        saveFilePath = Path.Combine(Application.persistentDataPath, saveFileName);
     }
     private TimeSpan ts;
     string elapsedTime;
@@ -91,26 +92,39 @@ public class SpeedrunTimer : MonoBehaviour {
     public void SaveTime()
     {
         Debug.Log("Initializing save operation");
-        decryptSave();
-
-        TimeText.text = elapsedTime;
-
-        string saveCopyPath = Path.Combine(Application.persistentDataPath, "saveCopy.txt");
-
-        using (StreamWriter sw = new StreamWriter(saveCopyPath, true))
+        try
         {
+            string saveFilePath = Path.Combine(Application.persistentDataPath, "saveFile.txt");
+            string saveCopyPath = Path.Combine(Application.persistentDataPath, "saveCopy.txt");
+
+            // Ensure the directory exists
+            if (!Directory.Exists(Application.persistentDataPath))
+            {
+                Directory.CreateDirectory(Application.persistentDataPath);
+            }
+
+            // Stop and reset the timer
             timer.Stop();
             timer.Reset();
 
             int saveTime = (int)ts.TotalMilliseconds;
 
-            Debug.Log("Writing " + saveTime + " to save file");
-            sw.Write(saveTime + ",");
+            // Write the save time to saveCopy.txt
+            using (StreamWriter sw = new StreamWriter(saveCopyPath, true))
+            {
+                Debug.Log("Writing " + saveTime + " to save copy file");
+                sw.Write(saveTime + ",");
+            }
+
+            // Encrypt and save
+            encryptSave();
+
+            TimeText.text = "00:00:00.00";
         }
-
-        encryptSave();
-
-        TimeText.text = "00:00:00.00";
+        catch (Exception ex)
+        {
+            Debug.LogError("Error during SaveTime: " + ex.Message);
+        }
     }
 
     public void decryptSave()

@@ -28,9 +28,11 @@ public class LeaderboardDisplayScript : MonoBehaviour
 
             string saveCopyPath = Path.Combine(Application.persistentDataPath, "saveCopy.txt");
 
-            if (!File.Exists(saveCopyPath))
+            FileInfo fileInfo = new FileInfo(saveCopyPath);
+
+            if (!File.Exists(saveCopyPath) || fileInfo.Length == 0)
             {
-                Debug.LogWarning("Save copy file not found.");
+                Debug.LogWarning("Save copy file not found or is empty.");
                 SetDefaultTimes();
                 return;
             }
