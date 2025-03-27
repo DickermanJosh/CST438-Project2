@@ -9,11 +9,11 @@ You play as a sugar-crazed fox racing toward the candy shop — but beware: ever
 ## 🕹️ Gameplay Overview
 
 - 🦊**Collect sugar** to increase your speed.
-- ⚠️**Avoid bad candy** that slows you down.
-- ⏱️**Balance the sugar high** — max it out and you'll be sent back to your last checkpoint!
+- 🍬**Avoid bad candy** that slows you down.
+- ⚠**Balance the sugar high** — max it out and you'll be sent back to your last checkpoint!
 - ⏱️**Race to the finish** — designed with speedrunning in mind, race against the clock to beat your previous best times.
 
-A fun and chaotic twist on platforming that’s all about *risk versus reward*.
+A fun and chaotic platformer that’s all about *risk vs reward*.
 
 ## 🚀 Tech Stack
 
@@ -23,7 +23,7 @@ A fun and chaotic twist on platforming that’s all about *risk versus reward*.
 
 ## 👥 Team
 
-Built by the following CSUMB students as part of the Software Engineering curriculum:
+Built by the following team to satisfy CSUMB's CST438 Software Engineering project 02 requirements:
 
 - Josh Dickerman  
 - Nathan Trujillo  
