@@ -31,10 +31,15 @@ Built by the following team to satisfy CSUMB's CST438 Software Engineering proje
 - Kobi Murakami
 
 ## 📷 Screenshots
-![Sugar High Banner](imgs/gameplay-01.PNG)
-![Sugar High Banner](imgs/colorblind-options.PNG)
-![Sugar High Banner](imgs/localization.PNG)
-![Sugar High Banner](imgs/leaderboard.PNG)
+<p float="left">
+  <img src="imgs/gameplay-01.PNG" width="45%" />
+  <img src="imgs/leaderboard.PNG" width="45%" />
+</p>
+<p float="left">
+  <img src="imgs/colorblind-options.PNG" width="45%" />
+  <img src="imgs/localization.PNG" width="45%" />
+</p>
+
 ## 📌 Project Notes
 
 This game was developed as a collaborative 4-week long class project focused on putting the Agile process into practice.
